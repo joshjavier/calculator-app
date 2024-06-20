@@ -1,9 +1,98 @@
-<fieldset role="radiogroup">
-  <legend>THEME</legend>
-  <label for="theme1">1</label>
-  <label for="theme2">2</label>
-  <label for="theme3">3</label>
-  <input type="radio" name="theme" id="theme1">
-  <input type="radio" name="theme" id="theme2">
-  <input type="radio" name="theme" id="theme3">
+<fieldset class="theme-switch" role="radiogroup" webc:root="override">
+  <legend class="visually-hidden">Select a theme</legend>
+  <div class="container">
+    <div aria-hidden="true">THEME</div>
+    <div>
+      <div class="labels" aria-hidden="true">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+      </div>
+      <div class="track">
+        <div class="radio-wrapper">
+          <input type="radio" name="theme" id="auto" aria-label="auto">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="8" />
+          </svg>
+        </div>
+        <div class="radio-wrapper">
+          <input type="radio" name="theme" id="light" aria-label="light" checked>
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="8" />
+          </svg>
+        </div>
+        <div class="radio-wrapper">
+          <input type="radio" name="theme" id="dark" aria-label="dark">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="8" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
 </fieldset>
+
+<style>
+  .theme-switch {
+    line-height: normal;
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    & .container {
+      display: flex;
+      gap: 26px;
+      align-items: end;
+
+      & > :first-child { margin-bottom: 5px; }
+    }
+
+    & .labels {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 5px;
+
+      & > * { width: 12px; }
+      & > :nth-child(1) { margin-right: 11px; }
+      & > :nth-child(2) { margin-right: 10px; }
+    }
+
+    & .track {
+      border-radius: 13px;
+      display: flex;
+      background-color: #242D44;
+
+      & > :nth-child(1) { margin-right: -3px; }
+      & > :nth-child(2) { margin-right: -4px; }
+    }
+  }
+
+  .radio-wrapper {
+    width: 26px;
+    height: 26px;
+    position: relative;
+
+    & input[type="radio"] {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      margin: 5px;
+      opacity: 0;
+      cursor: pointer;
+
+      & + svg {
+        margin: 5px;
+      }
+
+      &:focus-visible + svg {
+        outline: 6px double black;
+        box-shadow: 0 0 0 4px white;
+      }
+
+      &:checked + svg {
+        fill: #F96B5B;
+      }
+    }
+  }
+</style>
