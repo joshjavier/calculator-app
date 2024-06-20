@@ -1,6 +1,6 @@
 <div class="calc-header" webc:root="override">
   <h1>calc</h1>
-  <theme-switcher></theme-switcher>
+  <theme-switch></theme-switch>
 </div>
 
 <style>
