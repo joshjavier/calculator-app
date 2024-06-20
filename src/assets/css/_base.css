@@ -1,2 +1,17 @@
 @import "_reset.css";
 @import "_fonts.css";
+
+:root {
+  --text-sans: 'League Spartan', Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
+  --text-bold: 700;
+}
+
+html {
+  font-family: var(--text-sans);
+  font-weight: var(--text-bold);
+}
+
+:focus-visible {
+  outline: 6px double black;
+  box-shadow: 0 0 0 4px white;
+}

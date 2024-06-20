@@ -1,0 +1,38 @@
+<button webc:root="override" class="key"><slot></slot></button>
+
+<style>
+  .key {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 64px; */
+    /* width: 60px; */
+    border-radius: 5px;
+    border: 1px solid transparent;
+    box-shadow: inset 0 -4px 0 0 #881c9e;
+    background-color: #331C4D;
+    color: #FFE53D;
+    font-size: 32px;
+    letter-spacing: -0.53px;
+  }
+
+  .key.primary,
+  .key.secondary {
+    font-size: 20px;
+    letter-spacing: -0.33px;
+  }
+
+  .key.primary {
+    color: #1A2327;
+    background-color: #00DED0;
+  }
+
+  .key.secondary {
+    color: #fff;
+    background-color: #56077C;
+  }
+
+  .key.big {
+    grid-column-end: span 2;
+  }
+</style>

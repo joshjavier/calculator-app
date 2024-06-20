@@ -1,0 +1,31 @@
+<key>7</key>
+<key>8</key>
+<key>9</key>
+<key class="secondary">DEL</key>
+<key>4</key>
+<key>5</key>
+<key>6</key>
+<key>&plus;</key>
+<key>1</key>
+<key>2</key>
+<key>3</key>
+<key>&minus;</key>
+<key>.</key>
+<key>0</key>
+<key>/</key>
+<key>&times;</key>
+<key class="secondary big">RESET</key>
+<key class="primary big">=</key>
+
+<style>
+  keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 60px);
+    grid-auto-rows: 64px;
+    gap: 13px;
+    padding: 24px;
+    border-radius: 10px;
+    border: 1px solid red;
+    justify-content: center;
+  }
+</style>
