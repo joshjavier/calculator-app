@@ -1,0 +1,11 @@
+<div class="calc-header" webc:root="override">
+  <h1>calc</h1>
+  <theme-switcher></theme-switcher>
+</div>
+
+<style>
+  .calc-header {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>

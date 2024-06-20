@@ -1,0 +1,9 @@
+<fieldset role="radiogroup">
+  <legend>THEME</legend>
+  <label for="theme1">1</label>
+  <label for="theme2">2</label>
+  <label for="theme3">3</label>
+  <input type="radio" name="theme" id="theme1">
+  <input type="radio" name="theme" id="theme2">
+  <input type="radio" name="theme" id="theme3">
+</fieldset>

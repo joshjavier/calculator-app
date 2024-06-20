@@ -15,6 +15,7 @@
 </head>
 <body>
 
+  <calc-header></calc-header>
   <display>399,981</display>
   <keypad></keypad>
 
