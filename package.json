@@ -1,0 +1,16 @@
+{
+  "name": "calculator-app",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve --incremental --quiet"
+  },
+  "author": "Josh Javier",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "3.0.0-alpha.13",
+    "esbuild": "0.21.5",
+    "lightningcss": "^1.25.1"
+  }
+}
