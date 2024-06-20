@@ -1,0 +1,14 @@
+<style>
+  display {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    /* padding: 29px 24px 22px; */
+    padding-inline: 24px;
+    height: 88px;
+    font-size: 40px;
+    line-height: normal;
+    border-radius: 10px;
+    border: 1px solid red;
+  }
+</style>
