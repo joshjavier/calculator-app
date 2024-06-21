@@ -13,28 +13,40 @@
     letter-spacing: var(--tracking-tighter);
     line-height: normal;
     cursor: pointer;
-  }
 
-  .key.primary,
-  .key.secondary {
-    font-size: var(--text-m);
-    letter-spacing: var(--tracking-tight);
-  }
+    &:where(.primary, .secondary) {
+      font-size: var(--text-m);
+      letter-spacing: var(--tracking-tight);
+    }
 
-  .key.primary {
-    --color-key-text: var(--color-key-primary-text, #fff);
-    --color-key-bg: var(--color-key-primary-bg, #D03F2F);
-    --color-key-shadow: var(--color-key-primary-shadow, #93261A);
+    &:where(.primary) {
+      --color-key-text: var(--color-key-primary-text, #fff);
+      --color-key-bg: var(--color-key-primary-bg, #D03F2F);
+      --color-key-shadow: var(--color-key-primary-shadow, #93261A);
+    }
 
-  }
+    &:where(.secondary) {
+      --color-key-text: var(--color-key-secondary-text, #fff);
+      --color-key-bg: var(--color-key-secondary-bg, #647198);
+      --color-key-shadow: var(--color-key-secondary-shadow, #414E73);
+    }
 
-  .key.secondary {
-    --color-key-text: var(--color-key-secondary-text, #fff);
-    --color-key-bg: var(--color-key-secondary-bg, #647198);
-    --color-key-shadow: var(--color-key-secondary-shadow, #414E73);
-  }
+    &:where(.big) {
+      grid-column-end: span 2;
+    }
 
-  .key.big {
-    grid-column-end: span 2;
+    @media (hover: hover) {
+      &:hover {
+        --color-key-bg: var(--color-key-hover, #fff);
+      }
+
+      &.primary:hover {
+        --color-key-bg: var(--color-key-primary-hover, #F96B5B);
+      }
+
+      &.secondary:hover {
+        --color-key-bg: var(--color-key-secondary-hover, #A2B2E1);
+      }
+    }
   }
 </style>
