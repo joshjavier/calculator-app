@@ -61,7 +61,7 @@
     & .track {
       border-radius: 13px;
       display: flex;
-      background-color: #242D44;
+      background-color: var(--color-switch-track, #242D44);
 
       & > :nth-child(1) { margin-right: -3px; }
       & > :nth-child(2) { margin-right: -4px; }
@@ -75,9 +75,9 @@
 
     & input[type="radio"] {
       position: absolute;
-      width: 16px;
-      height: 16px;
-      margin: 5px;
+      width: 26px;
+      height: 26px;
+      margin: 0;
       opacity: 0;
       cursor: pointer;
 
@@ -91,7 +91,7 @@
       }
 
       &:checked + svg {
-        fill: #F96B5B;
+        fill: var(--color-switch-handle, #F96B5B);
       }
     }
   }
