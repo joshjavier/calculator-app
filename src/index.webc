@@ -14,11 +14,11 @@
   <style @raw="getBundle('css')" webc:keep></style>
 </head>
 <body>
-
-  <calc-header></calc-header>
-  <display>399,981</display>
-  <keypad></keypad>
-
-  <attribution></attribution>
+  <main>
+    <calculator></calculator>
+  </main>
+  <footer>
+    <attribution></attribution>
+  </footer>
 </body>
 </html>
