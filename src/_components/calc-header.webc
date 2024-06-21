@@ -1,5 +1,5 @@
 <div class="calc-header" webc:root="override">
-  <h1>calc</h1>
+  <h2 class="title">calc</h2>
   <theme-switch></theme-switch>
 </div>
 
@@ -7,5 +7,16 @@
   .calc-header {
     display: flex;
     justify-content: space-between;
+    align-items: end;
+    margin-bottom: 32px;
+
+    & .title {
+      font-weight: var(--text-bold);
+      font-size: var(--text-m);
+      line-height: normal;
+      letter-spacing: var(--tracking-tight);
+      margin-block: 0 var(--fluid-3-1);
+      margin-left: 7px;
+    }
   }
 </style>
