@@ -2,35 +2,36 @@
 
 <style>
   .key {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* height: 64px; */
-    /* width: 60px; */
-    border-radius: 5px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--fluid-5-10);
     border: 1px solid transparent;
-    box-shadow: inset 0 -4px 0 0 #881c9e;
-    background-color: #331C4D;
-    color: #FFE53D;
-    font-size: 32px;
-    letter-spacing: -0.53px;
+    box-shadow: inset 0 -4px 0 0 var(--color-key-shadow, #B3A497);
+    background-color: var(--color-key-bg, #EAE3DC);
+    color: var(--color-key-text, #434A59);
+    font-size: var(--text-key, var(--text-l-fluid));
+    letter-spacing: var(--tracking-tighter);
     line-height: normal;
+    cursor: pointer;
   }
 
   .key.primary,
   .key.secondary {
-    font-size: 20px;
-    letter-spacing: -0.33px;
+    font-size: var(--text-m);
+    letter-spacing: var(--tracking-tight);
   }
 
   .key.primary {
-    color: #1A2327;
-    background-color: #00DED0;
+    --color-key-text: var(--color-key-primary-text, #fff);
+    --color-key-bg: var(--color-key-primary-bg, #D03F2F);
+    --color-key-shadow: var(--color-key-primary-shadow, #93261A);
+
   }
 
   .key.secondary {
-    color: #fff;
-    background-color: #56077C;
+    --color-key-text: var(--color-key-secondary-text, #fff);
+    --color-key-bg: var(--color-key-secondary-bg, #647198);
+    --color-key-shadow: var(--color-key-secondary-shadow, #414E73);
   }
 
   .key.big {
