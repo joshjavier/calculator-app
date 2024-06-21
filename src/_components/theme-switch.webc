@@ -34,7 +34,7 @@
 
 <style>
   .theme-switch {
-    line-height: normal;
+    /* line-height: normal; */
     border: none;
     padding: 0;
     margin: 0;

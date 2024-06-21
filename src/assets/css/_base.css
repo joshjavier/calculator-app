@@ -4,11 +4,56 @@
 :root {
   --text-sans: 'League Spartan', Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
   --text-bold: 700;
+
+  --text-s: 12px;
+  --text-m: 32px;
+  --text-m-fluid: var(--fluid-32-40);
+  --text-l: var(--fluid-40-56);
+
+  --tracking-tightest: calc(-1 * var(--fluid-0\.67-0\.93));
+  --tracking-tighter: calc(-1 * var(--fluid-0\.53-0\.67));
+  --tracking-tight: -0.53px;
+  --tracking-wide: 1px;
+
+  /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.33—0.47 */
+  --fluid-0\.33-0\.47: clamp(0.0206rem, 0.0007rem + 0.0848cqi, 0.0294rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.53—0.67 */
+  --fluid-0\.53-0\.67: clamp(0.0331rem, 0.0132rem + 0.0848cqi, 0.0419rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.67—0.93 */
+  --fluid-0\.67-0\.93: clamp(0.0419rem, 0.0049rem + 0.1576cqi, 0.0581rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,540,3—1 */
+  --fluid-3-1: clamp(0.0625rem, 0.4716rem + -1.2121cqi, 0.1875rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,540,5—10 */
+  --fluid-5-10: clamp(0.3125rem, -0.3977rem + 3.0303cqi, 0.625rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=320,540,10—24 */
+  --fluid-10-24: clamp(0.625rem, -0.6477rem + 6.3636cqi, 1.5rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,540,20—28 */
+  --fluid-20-28: clamp(1.25rem, 0.1136rem + 4.8485cqi, 1.75rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=320,540,20—32 */
+  --fluid-20-32: clamp(1.25rem, 0.1591rem + 5.4545cqi, 2rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,540,24—32 */
+  --fluid-24-32: clamp(1.5rem, 0.3636rem + 4.8485cqi, 2rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,540,32—40 */
+  --fluid-32-40: clamp(2rem, 0.8636rem + 4.8485cqi, 2.5rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,540,40—56 */
+  --fluid-40-56: clamp(2.5rem, 0.2273rem + 9.697cqi, 3.5rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=320,375,53—64 */
+  --fluid-53-64: clamp(3.3125rem, -0.6875rem + 20cqi, 4rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,540,88—128 */
+  --fluid-88-128: clamp(5.5rem, -0.1818rem + 24.2424cqi, 8rem);
 }
 
 html {
   font-family: var(--text-sans);
   font-weight: var(--text-bold);
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  padding: 30px 24px;
 }
 
 :focus-visible {
