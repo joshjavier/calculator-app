@@ -6,7 +6,6 @@
     place-items: center;
     border-radius: var(--fluid-5-10);
     border: 1px solid transparent;
-    box-shadow: 0 4px 0 0 var(--color-key-shadow, #B3A497);
     background-color: var(--color-key-bg, #EAE3DC);
     color: var(--color-key-text, #434A59);
     font-size: var(--text-key, var(--text-l-fluid));
@@ -17,6 +16,10 @@
     padding: 7px 0 0; /* optical adjustment */
     position: relative;
     touch-action: manipulation;
+
+    &:not(:focus-visible) {
+      box-shadow: 0 4px 0 0 var(--color-key-shadow, #B3A497);
+    }
 
     &:where(.primary, .secondary) {
       font-size: var(--text-m);
@@ -55,7 +58,10 @@
 
     &:active {
       top: 4px;
-      box-shadow: none;
+
+      &:not(:focus-visible) {
+        box-shadow: none;
+      }
     }
   }
 </style>
