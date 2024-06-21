@@ -3,11 +3,13 @@
     display: flex;
     align-items: center;
     justify-content: end;
-    /* padding: 29px 24px 22px; */
-    padding-inline: 24px;
-    height: 88px;
-    font-size: 40px;
+    padding-inline: var(--fluid-24-32);
+    height: var(--fluid-88-128);
+    font-size: var(--text-display, var(--text-xl));
+    letter-spacing: var(--tracking-tightest);
     border-radius: 10px;
-    border: 1px solid red;
+    background-color: var(--color-display-bg, #181F33);
+    color: var(--color-display-text, #fff);
+    margin-bottom: 24px;
   }
 </style>
