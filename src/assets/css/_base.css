@@ -10,13 +10,15 @@
   --text-bold: 700;
 
   --text-s: 12px;
-  --text-m: 32px;
-  --text-m-fluid: var(--fluid-32-40);
-  --text-l: var(--fluid-40-56);
+  --text-m: var(--fluid-20-28);
+  --text-l: 32px;
+  --text-l-fluid: var(--fluid-32-40);
+  --text-xl: var(--fluid-40-56);
 
   --tracking-tightest: calc(-1 * var(--fluid-0\.67-0\.93));
   --tracking-tighter: calc(-1 * var(--fluid-0\.53-0\.67));
-  --tracking-tight: -0.53px;
+  --tracking-tight: calc(-1 * var(--fluid-0\.33-0\.47));
+  --tracking--p53: -0.53px;
   --tracking-wide: 1px;
 
   /*********************************

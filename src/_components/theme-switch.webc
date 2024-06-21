@@ -34,17 +34,20 @@
 
 <style>
   .theme-switch {
-    /* line-height: normal; */
     border: none;
     padding: 0;
     margin: 0;
+    font-size: var(--text-s);
 
     & .container {
       display: flex;
       gap: 26px;
       align-items: end;
 
-      & > :first-child { margin-bottom: 5px; }
+      & > :first-child {
+        margin-bottom: 5px;
+        letter-spacing: var(--tracking-wide);
+      }
     }
 
     & .labels {
