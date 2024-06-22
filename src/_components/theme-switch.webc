@@ -68,6 +68,11 @@
 
       & > :nth-child(1) { margin-right: -3px; }
       & > :nth-child(2) { margin-right: -4px; }
+
+      &:has(input[type="radio"]:focus-visible) {
+        outline: var(--fluid-6-9) double black;
+        box-shadow: 0 0 0 var(--fluid-4-6) white;
+      }
     }
   }
 
@@ -86,11 +91,6 @@
 
       & + svg {
         margin: 5px;
-      }
-
-      &:focus-visible + svg {
-        outline: 6px double black;
-        box-shadow: 0 0 0 4px white;
       }
 
       &:checked + svg {
