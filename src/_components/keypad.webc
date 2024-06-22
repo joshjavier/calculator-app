@@ -25,6 +25,6 @@
     gap: var(--fluid-10-24);
     padding: var(--fluid-20-32);
     border-radius: 10px;
-    background-color: var(--color-keypad, #242D44);
+    background-color: var(--color-keypad, var(--color-ebony-clay));
   }
 </style>
