@@ -8,7 +8,7 @@
     font-size: var(--text-display, var(--text-xl));
     letter-spacing: var(--tracking-tightest);
     border-radius: 10px;
-    background-color: var(--color-display-bg, #181F33);
+    background-color: var(--color-display-bg, var(--color-dark));
     color: var(--color-display-text, #fff);
     margin-bottom: 24px;
   }
