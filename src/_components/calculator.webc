@@ -1,0 +1,13 @@
+<calc-header></calc-header>
+<display>399,981</display>
+<keypad></keypad>
+
+<style>
+  calculator {
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 540px);
+    line-height: normal;
+    container: calculator / inline-size;
+  }
+</style>

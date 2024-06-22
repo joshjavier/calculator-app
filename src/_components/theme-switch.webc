@@ -1,0 +1,115 @@
+<fieldset class="theme-switch" role="radiogroup" webc:root="override">
+  <legend class="visually-hidden">Select a theme</legend>
+  <div class="container">
+    <div aria-hidden="true">THEME</div>
+    <div>
+      <div class="labels" aria-hidden="true">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+      </div>
+      <div class="track">
+        <div class="radio-wrapper">
+          <input type="radio" name="theme" id="auto" aria-label="auto">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="8" />
+          </svg>
+        </div>
+        <div class="radio-wrapper">
+          <input type="radio" name="theme" id="light" aria-label="light" checked>
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="8" />
+          </svg>
+        </div>
+        <div class="radio-wrapper">
+          <input type="radio" name="theme" id="dark" aria-label="dark">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="8" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+<style>
+  .theme-switch {
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: var(--text-s);
+
+    & .container {
+      display: flex;
+      gap: 26px;
+      align-items: end;
+
+      & > :first-child {
+        margin-bottom: 5px;
+        letter-spacing: var(--tracking-wide);
+      }
+    }
+
+    & .labels {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 5px;
+
+      & > * { width: 12px; }
+      & > :nth-child(1) { margin-right: 11px; }
+      & > :nth-child(2) { margin-right: 10px; }
+    }
+
+    & .track {
+      border-radius: 13px;
+      display: flex;
+      background-color: var(--color-switch-track, var(--color-ebony-clay));
+
+      & > :nth-child(1) { margin-right: -3px; }
+      & > :nth-child(2) { margin-right: -4px; }
+
+      /* &:has(input[type="radio"]:focus-visible) {
+        outline: var(--fluid-6-9) double black;
+        box-shadow: 0 0 0 var(--fluid-4-6) white;
+      } */
+    }
+  }
+
+  .radio-wrapper {
+    width: 26px;
+    height: 26px;
+    position: relative;
+
+    & input[type="radio"] {
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 1;
+
+      & + svg {
+        margin: 5px;
+        border-radius: 9999em;
+      }
+
+      &:checked {
+        & + svg {
+          fill: var(--color-switch-handle, var(--color-persian-red));
+        }
+
+        &:hover + svg {
+          fill: var(--color-switch-handle-hover, var(--color-bittersweet));
+        }
+
+        &:focus-visible + svg {
+          outline: var(--fluid-6-9) double black;
+          box-shadow: 0 0 0 var(--fluid-4-6) white;
+          /* box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-switch-handle, var(--color-persian-red)), transparent 50%); */
+        }
+      }
+    }
+  }
+</style>

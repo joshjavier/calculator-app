@@ -1,0 +1,15 @@
+<style>
+  display {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding-inline: var(--fluid-24-32);
+    height: var(--fluid-88-128);
+    font-size: var(--text-display, var(--text-xl));
+    letter-spacing: var(--tracking-tightest);
+    border-radius: 10px;
+    background-color: var(--color-display-bg, var(--color-dark));
+    color: var(--color-display-text, #fff);
+    margin-bottom: 24px;
+  }
+</style>

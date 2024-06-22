@@ -1,0 +1,67 @@
+<button webc:root="override" class="key"><slot></slot></button>
+
+<style>
+  .key {
+    display: grid;
+    place-items: center;
+    border-radius: var(--fluid-5-10);
+    border: 1px solid transparent;
+    background-color: var(--color-key-bg, var(--color-platinum-orange));
+    color: var(--color-key-text, var(--color-river-bed));
+    font-size: var(--text-key, var(--text-l-fluid));
+    letter-spacing: var(--tracking-tighter);
+    line-height: normal;
+    cursor: pointer;
+    margin-bottom: 4px;
+    padding: 7px 0 0; /* optical adjustment */
+    position: relative;
+    touch-action: manipulation;
+
+    &:not(:focus-visible) {
+      box-shadow: 0 4px 0 0 var(--color-key-shadow, var(--color-martini));
+    }
+
+    &:where(.primary, .secondary) {
+      font-size: var(--text-m);
+      letter-spacing: var(--tracking-tight);
+    }
+
+    &:where(.primary) {
+      --color-key-text: var(--color-key-primary-text, #fff);
+      --color-key-bg: var(--color-key-primary-bg, var(--color-persian-red));
+      --color-key-shadow: var(--color-key-primary-shadow, var(--color-vivid-auburn));
+    }
+
+    &:where(.secondary) {
+      --color-key-text: var(--color-key-secondary-text, #fff);
+      --color-key-bg: var(--color-key-secondary-bg, var(--color-waikawa-grey));
+      --color-key-shadow: var(--color-key-secondary-shadow, var(--color-dusk));
+    }
+
+    &:where(.big) {
+      grid-column-end: span 2;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        --color-key-bg: var(--color-key-hover, #fff);
+      }
+
+      &.primary:hover {
+        --color-key-bg: var(--color-key-primary-hover, var(--color-bittersweet));
+      }
+
+      &.secondary:hover {
+        --color-key-bg: var(--color-key-secondary-hover, var(--color-carolina-blue));
+      }
+    }
+
+    &:active {
+      top: 4px;
+
+      &:not(:focus-visible) {
+        box-shadow: none;
+      }
+    }
+  }
+</style>
