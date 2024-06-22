@@ -135,24 +135,44 @@ main {
   box-shadow: 0 0 0 var(--fluid-4-6) white;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --color-sheet: var(--color-mercury);
-    --color-text: var(--color-dune);
-    --color-switch-track: var(--color-grey-goose);
-    --color-switch-handle: var(--color-rust-orange);
-    --color-switch-handle-hover: var(--color-mango-orange);
-    --color-display-bg: var(--color-soft-peach);
-    --color-display-text: var(--color-dune);
-    --color-keypad: var(--color-grey-goose);
-    --color-key-text: var(--color-dune);
-    --color-key-bg: var(--color-platinum);
-    --color-key-shadow: var(--color-cement);
-    --color-key-primary-bg: var(--color-rust-orange);
-    --color-key-primary-hover: var(--color-mango-orange);
-    --color-key-primary-shadow: var(--color-rust-brown);
-    --color-key-secondary-bg: var(--color-greenish-blue);
-    --color-key-secondary-hover: var(--color-fountain-blue);
-    --color-key-secondary-shadow: var(--color-dark-green-blue);
-  }
+:root[data-theme="light"] {
+  --color-sheet: var(--color-mercury);
+  --color-text: var(--color-dune);
+  --color-switch-track: var(--color-grey-goose);
+  --color-switch-handle: var(--color-rust-orange);
+  --color-switch-handle-hover: var(--color-mango-orange);
+  --color-display-bg: var(--color-soft-peach);
+  --color-display-text: var(--color-dune);
+  --color-keypad: var(--color-grey-goose);
+  --color-key-text: var(--color-dune);
+  --color-key-bg: var(--color-platinum);
+  --color-key-shadow: var(--color-cement);
+  --color-key-primary-bg: var(--color-rust-orange);
+  --color-key-primary-hover: var(--color-mango-orange);
+  --color-key-primary-shadow: var(--color-rust-brown);
+  --color-key-secondary-bg: var(--color-greenish-blue);
+  --color-key-secondary-hover: var(--color-fountain-blue);
+  --color-key-secondary-shadow: var(--color-dark-green-blue);
+}
+
+:root[data-theme="purple"] {
+  --color-sheet: var(--color-black-rock);
+  --color-text: var(--color-banana-yellow);
+  --color-switch-track: var(--color-haiti);
+  --color-switch-handle: var(--color-aqua-blue);
+  --color-switch-handle-hover: var(--color-light-aquamarine);
+  --color-display-bg: var(--color-haiti);
+  --color-display-text: var(--color-banana-yellow);
+  --color-keypad: var(--color-haiti);
+  --color-key-text: var(--color-banana-yellow);
+  --color-key-bg: var(--color-dark-purple);
+  --color-key-hover: var(--color-purple-heart);
+  --color-key-shadow: var(--color-violet-eggplant);
+  --color-key-primary-text: var(--color-dark-jungle-green);
+  --color-key-primary-bg: var(--color-aqua-blue);
+  --color-key-primary-hover: var(--color-light-aquamarine);
+  --color-key-primary-shadow: var(--color-electric-blue);
+  --color-key-secondary-bg: var(--color-indigo);
+  --color-key-secondary-hover: var(--color-warm-purple);
+  --color-key-secondary-shadow: var(--color-neon-purple);
 }
