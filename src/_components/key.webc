@@ -9,6 +9,7 @@
     background-color: var(--color-key-bg, var(--color-platinum-orange));
     color: var(--color-key-text, var(--color-river-bed));
     font-size: var(--text-key, var(--text-l-fluid));
+    font-weight: inherit;
     letter-spacing: var(--tracking-tighter);
     line-height: normal;
     cursor: pointer;
