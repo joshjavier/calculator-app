@@ -6,7 +6,7 @@
   calculator {
     display: flex;
     flex-direction: column;
-    max-width: 540px;
+    width: min(100%, 540px);
     line-height: normal;
     container: calculator / inline-size;
   }

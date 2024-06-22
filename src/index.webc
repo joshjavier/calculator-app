@@ -17,7 +17,7 @@
   <main>
     <calculator></calculator>
   </main>
-  <footer>
+  <footer hidden>
     <attribution></attribution>
   </footer>
 </body>
