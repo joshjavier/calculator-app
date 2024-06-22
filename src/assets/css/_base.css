@@ -3,6 +3,56 @@
 
 :root {
   /*********************************
+               Colors
+  *********************************/
+
+  --color-dark: #181F33;
+  --color-ebony-clay: #242D44;
+  --color-pickled-bluewood: #3A4663;
+  --color-platinum-orange: #EAE3DC;
+  --color-martini: #B3A497;
+  --color-persian-red: #D03F2F;
+  --color-bittersweet: #F96B5B;
+  --color-vivid-auburn: #93261A;
+  --color-waikawa-grey: #647198;
+  --color-carolina-blue: #A2B2E1;
+  --color-dusk: #414E73;
+  --color-river-bed: #434A59;
+
+  --color-mercury: #E6E6E6;
+  --color-grey-goose: #D2CDCD;
+  --color-soft-peach: #EEEEEE;
+  --color-platinum: #E5E4E1;
+  --color-cement: #A79E91;
+  --color-rust-orange: #C85402;
+  --color-mango-orange: #FF8A38;
+  --color-rust-brown: #873901;
+  --color-greenish-blue: #378187;
+  --color-fountain-blue: #62B5BC;
+  --color-dark-green-blue: #1B6066;
+  --color-dune: #36362C;
+
+  --color-black-rock: #17062A;
+  --color-haiti: #1E0936;
+  --color-dark-purple: #331C4D;
+  --color-purple-heart: #6C34AC;
+  --color-violet-eggplant: #881C9E;
+  --color-aqua-blue: #00DED0;
+  --color-light-aquamarine: #93FFF8;
+  --color-electric-blue: #6CF9F1;
+  --color-indigo: #56077C;
+  --color-warm-purple: #8631AF;
+  --color-neon-purple: #BE15F4;
+  --color-banana-yellow: #FFE53D;
+  --color-dark-jungle-green: #1A2327;
+
+  /* Semantic colors */
+  --color-primary: var(--color-persian-red);
+  --color-secondary: var(--color-waikawa-grey);
+  --color-primary-hover: var(--color-bittersweet);
+  --color-secondary-hover: var(--color-carolina-blue);
+
+  /*********************************
              Typography
   *********************************/
 
@@ -69,6 +119,8 @@ html {
 
 body {
   margin: 0;
+  background-color: var(--color-sheet, var(--color-pickled-bluewood));
+  color: var(--color-text, #fff);
 }
 
 main {
