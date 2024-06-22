@@ -134,3 +134,25 @@ main {
   outline: var(--fluid-6-9) double black;
   box-shadow: 0 0 0 var(--fluid-4-6) white;
 }
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-sheet: var(--color-mercury);
+    --color-text: var(--color-dune);
+    --color-switch-track: var(--color-grey-goose);
+    --color-switch-handle: var(--color-rust-orange);
+    --color-switch-handle-hover: var(--color-mango-orange);
+    --color-display-bg: var(--color-soft-peach);
+    --color-display-text: var(--color-dune);
+    --color-keypad: var(--color-grey-goose);
+    --color-key-text: var(--color-dune);
+    --color-key-bg: var(--color-platinum);
+    --color-key-shadow: var(--color-cement);
+    --color-key-primary-bg: var(--color-rust-orange);
+    --color-key-primary-hover: var(--color-mango-orange);
+    --color-key-primary-shadow: var(--color-rust-brown);
+    --color-key-secondary-bg: var(--color-greenish-blue);
+    --color-key-secondary-hover: var(--color-fountain-blue);
+    --color-key-secondary-shadow: var(--color-dark-green-blue);
+  }
+}
