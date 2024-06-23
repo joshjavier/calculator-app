@@ -10,24 +10,12 @@
           <div>3</div>
         </div>
         <div class="track">
-          <div class="radio-wrapper">
-            <input type="radio" name="theme" id="dark" value="dark" aria-label="dark theme">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
-              <circle cx="8" cy="8" r="8" />
-            </svg>
-          </div>
-          <div class="radio-wrapper">
-            <input type="radio" name="theme" id="light" value="light" aria-label="light theme">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
-              <circle cx="8" cy="8" r="8" />
-            </svg>
-          </div>
-          <div class="radio-wrapper">
-            <input type="radio" name="theme" id="purple" value="purple" aria-label="purple theme">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
-              <circle cx="8" cy="8" r="8" />
-            </svg>
-          </div>
+          <input type="radio" name="theme" id="dark" value="dark" aria-label="dark theme">
+          <input type="radio" name="theme" id="light" value="light" aria-label="light theme">
+          <input type="radio" name="theme" id="purple" value="purple" aria-label="purple theme">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="8" />
+          </svg>
         </div>
       </div>
     </div>
@@ -67,6 +55,7 @@
       border-radius: 13px;
       display: flex;
       background-color: var(--color-switch-track, var(--color-ebony-clay));
+      position: relative;
 
       & > :nth-child(1) { margin-right: -3px; }
       & > :nth-child(2) { margin-right: -4px; }
@@ -76,15 +65,8 @@
         box-shadow: 0 0 0 var(--fluid-4-6) white;
       } */
     }
-  }
-
-  .radio-wrapper {
-    width: 26px;
-    height: 26px;
-    position: relative;
 
     & input[type="radio"] {
-      position: absolute;
       width: 26px;
       height: 26px;
       margin: 0;
@@ -92,25 +74,29 @@
       cursor: pointer;
       z-index: 1;
 
-      & + svg {
+      & ~ svg {
         margin: 5px;
         border-radius: 9999em;
+        fill: var(--color-switch-handle, var(--color-persian-red));
+        position: absolute;
+        transition: transform 0.3s ease;
       }
 
-      &:checked {
-        & + svg {
-          fill: var(--color-switch-handle, var(--color-persian-red));
-        }
+      &:focus-visible ~ svg {
+        outline: var(--fluid-6-9) double black;
+        box-shadow: 0 0 0 var(--fluid-4-6) white;
+      }
 
-        &:hover + svg {
-          fill: var(--color-switch-handle-hover, var(--color-bittersweet));
-        }
+      &:checked:hover ~ svg {
+        fill: var(--color-switch-handle-hover, var(--color-bittersweet));
+      }
 
-        &:focus-visible + svg {
-          outline: var(--fluid-6-9) double black;
-          box-shadow: 0 0 0 var(--fluid-4-6) white;
-          /* box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-switch-handle, var(--color-persian-red)), transparent 50%); */
-        }
+      &:nth-child(2):checked ~ svg {
+        transform: translateX(23px);
+      }
+
+      &:nth-child(3):checked ~ svg {
+        transform: translateX(45px);
       }
     }
   }
