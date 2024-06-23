@@ -72,37 +72,6 @@
   --tracking-wide: 1px;
 
   /*********************************
-    Container-relative fluid props
-  *********************************/
-
-  /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.33—0.47 */
-  --fluid-0\.33-0\.47: clamp(0.0206rem, 0.0007rem + 0.0848cqi, 0.0294rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.53—0.67 */
-  --fluid-0\.53-0\.67: clamp(0.0331rem, 0.0132rem + 0.0848cqi, 0.0419rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.67—0.93 */
-  --fluid-0\.67-0\.93: clamp(0.0419rem, 0.0049rem + 0.1576cqi, 0.0581rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=375,540,3—1 */
-  --fluid-3-1: clamp(0.0625rem, 0.4716rem + -1.2121cqi, 0.1875rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=375,540,5—10 */
-  --fluid-5-10: clamp(0.3125rem, -0.3977rem + 3.0303cqi, 0.625rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=320,540,10—24 */
-  --fluid-10-24: clamp(0.625rem, -0.6477rem + 6.3636cqi, 1.5rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=375,540,20—28 */
-  --fluid-20-28: clamp(1.25rem, 0.1136rem + 4.8485cqi, 1.75rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=320,540,20—32 */
-  --fluid-20-32: clamp(1.25rem, 0.1591rem + 5.4545cqi, 2rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=375,540,24—32 */
-  --fluid-24-32: clamp(1.5rem, 0.3636rem + 4.8485cqi, 2rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=375,540,32—40 */
-  --fluid-32-40: clamp(2rem, 0.8636rem + 4.8485cqi, 2.5rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=375,540,40—56 */
-  --fluid-40-56: clamp(2.5rem, 0.2273rem + 9.697cqi, 3.5rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=320,375,53—64 */
-  --fluid-53-64: clamp(3.3125rem, -0.6875rem + 20cqi, 4rem);
-  /* @link https://utopia.fyi/clamp/calculator?a=375,540,88—128 */
-  --fluid-88-128: clamp(5.5rem, -0.1818rem + 24.2424cqi, 8rem);
-
-  /*********************************
      Viewport-relative fluid props
   *********************************/
 
@@ -110,6 +79,75 @@
   --fluid-4-6: clamp(0.25rem, 0.206rem + 0.1878vi, 0.375rem);
   /* @link https://utopia.fyi/clamp/calculator?a=375,1440,6—9 */
   --fluid-6-9: clamp(0.375rem, 0.309rem + 0.2817vi, 0.5625rem);
+
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,0.33—0.47 */
+  --fluid-0\.33-0\.47: clamp(0.0206rem, 0.0052rem + 0.0657vi, 0.0294rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,0.53—0.67 */
+  --fluid-0\.53-0\.67: clamp(0.0331rem, 0.0177rem + 0.0657vi, 0.0419rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,0.67—0.93 */
+  --fluid-0\.67-0\.93: clamp(0.0419rem, 0.0133rem + 0.1221vi, 0.0581rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,3—1 */
+  --fluid-3-1: clamp(0.0625rem, 0.4076rem + -0.939vi, 0.1875rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,5—10 */
+  --fluid-5-10: clamp(0.3125rem, -0.2377rem + 2.3474vi, 0.625rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,20—28 */
+  --fluid-20-28: clamp(1.25rem, 0.3697rem + 3.7559vi, 1.75rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,24—32 */
+  --fluid-24-32: clamp(1.5rem, 0.6197rem + 3.7559vi, 2rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,32—40 */
+  --fluid-32-40: clamp(2rem, 1.1197rem + 3.7559vi, 2.5rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,40—56 */
+  --fluid-40-56: clamp(2.5rem, 0.7394rem + 7.5117vi, 3.5rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,88—128 */
+  --fluid-88-128: clamp(5.5rem, 1.0986rem + 18.7793vi, 8rem);
+
+  /* @link https://utopia.fyi/clamp/calculator?a=320,588,10—24 */
+  --fluid-10-24: clamp(0.625rem, -0.4198rem + 5.2239vi, 1.5rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=320,588,20—32 */
+  --fluid-20-32: clamp(1.25rem, 0.3545rem + 4.4776vi, 2rem);
+
+  /* @link https://utopia.fyi/clamp/calculator?a=320,375,53—64 */
+  --fluid-53-64: clamp(3.3125rem, -0.6875rem + 20vi, 4rem);
+
+  /*********************************
+    Container-relative fluid props
+  *********************************/
+
+  /*
+    ✨ Progressive Enhancement ✨
+
+    If the browser supports container query units, make fluid spacing relative
+    to the container (i.e, <calculator>) so the calculator is more flexible.
+  */
+
+  @supports (container-type: inline-size) {
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.33—0.47 */
+    --fluid-0\.33-0\.47: clamp(0.0206rem, 0.0007rem + 0.0848cqi, 0.0294rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.53—0.67 */
+    --fluid-0\.53-0\.67: clamp(0.0331rem, 0.0132rem + 0.0848cqi, 0.0419rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.67—0.93 */
+    --fluid-0\.67-0\.93: clamp(0.0419rem, 0.0049rem + 0.1576cqi, 0.0581rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,3—1 */
+    --fluid-3-1: clamp(0.0625rem, 0.4716rem + -1.2121cqi, 0.1875rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,5—10 */
+    --fluid-5-10: clamp(0.3125rem, -0.3977rem + 3.0303cqi, 0.625rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=320,540,10—24 */
+    --fluid-10-24: clamp(0.625rem, -0.6477rem + 6.3636cqi, 1.5rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,20—28 */
+    --fluid-20-28: clamp(1.25rem, 0.1136rem + 4.8485cqi, 1.75rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=320,540,20—32 */
+    --fluid-20-32: clamp(1.25rem, 0.1591rem + 5.4545cqi, 2rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,24—32 */
+    --fluid-24-32: clamp(1.5rem, 0.3636rem + 4.8485cqi, 2rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,32—40 */
+    --fluid-32-40: clamp(2rem, 0.8636rem + 4.8485cqi, 2.5rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,40—56 */
+    --fluid-40-56: clamp(2.5rem, 0.2273rem + 9.697cqi, 3.5rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=320,375,53—64 */
+    --fluid-53-64: clamp(3.3125rem, -0.6875rem + 20cqi, 4rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,88—128 */
+    --fluid-88-128: clamp(5.5rem, -0.1818rem + 24.2424cqi, 8rem);
+  }
 }
 
 * {
