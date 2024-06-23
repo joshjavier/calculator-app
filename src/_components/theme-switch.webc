@@ -1,36 +1,38 @@
-<fieldset class="theme-switch" role="radiogroup" webc:root="override">
-  <legend class="visually-hidden">Select a theme</legend>
-  <div class="container">
-    <div aria-hidden="true">THEME</div>
-    <div>
-      <div class="labels" aria-hidden="true">
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-      </div>
-      <div class="track">
-        <div class="radio-wrapper">
-          <input type="radio" name="theme" id="auto" aria-label="auto">
-          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
-            <circle cx="8" cy="8" r="8" />
-          </svg>
+<form id="theme-switch" webc:root="override">
+  <fieldset class="theme-switch" role="radiogroup">
+    <legend class="visually-hidden">Select a theme</legend>
+    <div class="container">
+      <div aria-hidden="true">THEME</div>
+      <div>
+        <div class="labels" aria-hidden="true">
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
         </div>
-        <div class="radio-wrapper">
-          <input type="radio" name="theme" id="light" aria-label="light" checked>
-          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
-            <circle cx="8" cy="8" r="8" />
-          </svg>
-        </div>
-        <div class="radio-wrapper">
-          <input type="radio" name="theme" id="dark" aria-label="dark">
-          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
-            <circle cx="8" cy="8" r="8" />
-          </svg>
+        <div class="track">
+          <div class="radio-wrapper">
+            <input type="radio" name="theme" id="dark" value="dark" aria-label="dark theme">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
+              <circle cx="8" cy="8" r="8" />
+            </svg>
+          </div>
+          <div class="radio-wrapper">
+            <input type="radio" name="theme" id="light" value="light" aria-label="light theme">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
+              <circle cx="8" cy="8" r="8" />
+            </svg>
+          </div>
+          <div class="radio-wrapper">
+            <input type="radio" name="theme" id="purple" value="purple" aria-label="purple theme">
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
+              <circle cx="8" cy="8" r="8" />
+            </svg>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</fieldset>
+  </fieldset>
+</form>
 
 <style>
   .theme-switch {
@@ -113,3 +115,81 @@
     }
   }
 </style>
+
+<script>
+  /** @typedef {'light'|'dark'|'purple'} Theme */
+
+  /** @type {Theme} theme - The state that holds the current theme */
+  let theme
+  /** @type {HTMLFormElement} themeSwitch - The DOM element that allows users to change the current theme */
+  let themeSwitch
+
+  /**
+   * Gets the theme preference from the local storage (if set). Otherwise,
+   * returns 'light' or 'dark' depending on the `prefers-color-scheme` value
+   *
+   * @returns {Theme}
+   */
+  function getThemePreference(key = 'theme-preference') {
+    if (localStorage.getItem(key)) {
+      return localStorage.getItem(key)
+    } else {
+      return window.matchMedia('(prefers-color-scheme: light)').matches
+        ? 'light'
+        : 'dark'
+    }
+  }
+
+  /**
+   * Updates the DOM to reflect the theme change
+   */
+  function reflectThemeChange() {
+    document.firstElementChild.setAttribute('data-theme', theme)
+
+    themeSwitch = themeSwitch || document.querySelector('#theme-switch')
+    if (themeSwitch) {
+      const themeRadios = themeSwitch.elements['theme']
+
+      // If needed, check the radio button that corresponds to the current theme
+      if (themeRadios.value !== theme) {
+        const themeRadio = [...themeRadios].find(radio => radio.id === theme)
+        themeRadio.checked = true
+      }
+    }
+  }
+
+  // Save the theme preference into state
+  theme = getThemePreference()
+  // Set the `data-theme` attribute early to prevent page flashes
+  reflectThemeChange()
+</script>
+
+<script webc:bucket="defer">
+  /**
+   * Saves the theme preference in local storage
+   * and updates the DOM to reflect the changes
+   */
+  function setThemePreference(key = 'theme-preference') {
+    localStorage.setItem(key, theme)
+    reflectThemeChange()
+  }
+
+  // Call once DOM is ready to sync radio buttons with the theme state
+  reflectThemeChange()
+
+  // Bind event handlers to update the theme on switch interaction
+  themeSwitch.elements['theme'].forEach(radio => {
+    radio.addEventListener('change', event => {
+      theme = event.target.id
+      setThemePreference()
+    })
+  })
+
+  // Bind event handler to update the theme when `prefers-color-scheme` changes
+  window
+    .matchMedia('(prefers-color-scheme: light)')
+    .addEventListener('change', ({ matches: isLight }) => {
+      theme = isLight ? 'light' : 'dark'
+      setThemePreference()
+    })
+</script>

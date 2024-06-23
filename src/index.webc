@@ -7,11 +7,12 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
 
   <link rel="stylesheet" href="/assets/css/main.css" webc:keep>
-  <script type="module" src="/assets/js/main.js" webc:keep></script>
+  <script type="module" :src="getBundleFileUrl('js', 'defer')" webc:keep></script>
 
   <title>Frontend Mentor | Calculator app</title>
 
   <style @raw="getBundle('css')" webc:keep></style>
+  <script @raw="getBundle('js')" webc:keep></script>
 </head>
 <body>
   <main>

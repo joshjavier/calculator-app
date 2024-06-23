@@ -9,6 +9,7 @@
     background-color: var(--color-key-bg, var(--color-platinum-orange));
     color: var(--color-key-text, var(--color-river-bed));
     font-size: var(--text-key, var(--text-l-fluid));
+    font-weight: inherit;
     letter-spacing: var(--tracking-tighter);
     line-height: normal;
     cursor: pointer;
@@ -16,6 +17,7 @@
     padding: 7px 0 0; /* optical adjustment */
     position: relative;
     touch-action: manipulation;
+    transition: background-color 0s;
 
     &:not(:focus-visible) {
       box-shadow: 0 4px 0 0 var(--color-key-shadow, var(--color-martini));
