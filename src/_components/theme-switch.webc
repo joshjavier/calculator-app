@@ -80,6 +80,8 @@
         fill: var(--color-switch-handle, var(--color-persian-red));
         position: absolute;
         transition: transform 0.3s ease;
+        transform: translateX(var(--handle-position));
+        /* pointer-events: none; */
       }
 
       &:focus-visible ~ svg {
@@ -92,11 +94,11 @@
       }
 
       &:nth-child(2):checked ~ svg {
-        transform: translateX(23px);
+        --handle-position: 23px;
       }
 
       &:nth-child(3):checked ~ svg {
-        transform: translateX(45px);
+        --handle-position: 45px;
       }
     }
   }
@@ -178,4 +180,63 @@
       theme = isLight ? 'light' : 'dark'
       setThemePreference()
     })
+</script>
+
+<script webc:bucket="defer">
+  /*
+    ✨ Progressive Enhancement ✨
+
+    Let's make the switch draggable!
+  */
+
+  /** @type {boolean} handlePressed - True when the switch handle is pressed */
+  let handlePressed
+  /** @type {HTMLElement} track - The switch track */
+  const track = document.querySelector('.track')
+  /** @type {HTMLElement} handle - The switch handle */
+  const handle = document.querySelector('.track svg')
+  /** @type {object} thresholds - Key-value mapping of each option to its starting pixel offset */
+  const thresholds = {
+    'light': 23,
+    'purple': 45
+  }
+
+  function getPxValue(element, prop) {
+    return parseInt(window.getComputedStyle(element).getPropertyValue(prop)) || 0
+  }
+
+  // Move the radio buttons behind the track
+  themeSwitch.elements['theme'].forEach(radio => {
+    radio.style.zIndex = '-1'
+  })
+
+  // track.addEventListener('click', event => {
+  //   console.log(event.currentTarget)
+  //   console.log(event.target)
+  //   console.log(event.offsetX, event.offsetY)
+  // })
+
+  track.addEventListener('pointerdown', event => {
+    handlePressed = event.target.id === themeSwitch.elements['theme'].value
+    handlePressed = true
+    // console.log(event.offsetX)
+  })
+
+  track.addEventListener('pointermove', event => {
+    if (handlePressed) {
+      console.log(event.offsetX)
+      console.log(event.target)
+      // console.log(event.offsetX)
+
+      // let initialPos = getPxValue(handle, '--handle-position')
+      // let pos = Math.floor(initialPos - event.offsetX)
+      // handle.style.setProperty('--handle-position', `${pos}px`)
+    }
+  })
+
+  document.addEventListener('pointerup', event => {
+    handlePressed = false
+  })
+
+  //
 </script>
