@@ -56,6 +56,7 @@
       display: flex;
       background-color: var(--color-switch-track, var(--color-ebony-clay));
       position: relative;
+      user-select: none;
 
       & > :nth-child(1) { margin-right: -3px; }
       & > :nth-child(2) { margin-right: -4px; }
@@ -72,7 +73,12 @@
       margin: 0;
       opacity: 0;
       cursor: pointer;
-      z-index: 1;
+      /* z-index: 1; */
+
+      &:checked {
+        z-index: -1;
+        /* pointer-events: none; */
+      }
 
       & ~ svg {
         margin: 5px;
@@ -81,7 +87,12 @@
         position: absolute;
         transition: transform 0.3s ease;
         transform: translateX(var(--handle-position));
-        /* pointer-events: none; */
+        cursor: pointer;
+        /* z-index: 1; */
+
+        &:hover {
+          fill: var(--color-switch-handle-hover, var(--color-bittersweet));
+        }
       }
 
       &:focus-visible ~ svg {
@@ -90,7 +101,7 @@
       }
 
       &:checked:hover ~ svg {
-        fill: var(--color-switch-handle-hover, var(--color-bittersweet));
+        /* fill: var(--color-switch-handle-hover, var(--color-bittersweet)); */
       }
 
       &:nth-child(2):checked ~ svg {
@@ -189,54 +200,76 @@
     Let's make the switch draggable!
   */
 
+  // Utilities
+  function getPxValue(element, prop) {
+    return parseInt(window.getComputedStyle(element).getPropertyValue(prop)) || 0
+  }
+
+  /** @param {HTMLElement} element */
+  function getOffsetLeft(element) {
+    if (!element) return 0
+    return getOffsetLeft(element.offsetParent) + element.offsetLeft
+  }
+
   /** @type {boolean} handlePressed - True when the switch handle is pressed */
   let handlePressed
   /** @type {HTMLElement} track - The switch track */
   const track = document.querySelector('.track')
   /** @type {HTMLElement} handle - The switch handle */
-  const handle = document.querySelector('.track svg')
-  /** @type {object} thresholds - Key-value mapping of each option to its starting pixel offset */
-  const thresholds = {
-    'light': 23,
-    'purple': 45
-  }
+  const handle = track.querySelector('svg')
+  console.log(handle)
+  /** @type {number[]} thresholds - Array of starting thresholds in px for each option */
+  const thresholds = [...themeSwitch.elements['theme']].map(radio => radio.offsetLeft)
 
-  function getPxValue(element, prop) {
-    return parseInt(window.getComputedStyle(element).getPropertyValue(prop)) || 0
-  }
+  let trackOffsetLeft = getOffsetLeft(track)
+  let handleOffsetLeft = parseInt(getComputedStyle(handle).marginLeft)
+  let offsetLeft = trackOffsetLeft + handleOffsetLeft
 
-  // Move the radio buttons behind the track
-  themeSwitch.elements['theme'].forEach(radio => {
-    radio.style.zIndex = '-1'
-  })
-
-  // track.addEventListener('click', event => {
-  //   console.log(event.currentTarget)
-  //   console.log(event.target)
-  //   console.log(event.offsetX, event.offsetY)
-  // })
-
-  track.addEventListener('pointerdown', event => {
-    handlePressed = event.target.id === themeSwitch.elements['theme'].value
-    handlePressed = true
+  track.addEventListener('pointerdown', function (event) {
+    handlePressed = event.target !== this
+    // handlePressed = true
     // console.log(event.offsetX)
+
+    document.addEventListener('pointermove', drag)
+    document.addEventListener('pointerup', dragEnd, { once: true })
   })
 
-  track.addEventListener('pointermove', event => {
-    if (handlePressed) {
-      console.log(event.offsetX)
-      console.log(event.target)
-      // console.log(event.offsetX)
+  /** @param {PointerEvent} event */
+  function drag(event) {
+    if (!handlePressed) return
 
-      // let initialPos = getPxValue(handle, '--handle-position')
-      // let pos = Math.floor(initialPos - event.offsetX)
-      // handle.style.setProperty('--handle-position', `${pos}px`)
-    }
-  })
+    let pos = event.clientX - offsetLeft - (handle.clientWidth / 2)
+    if (pos < thresholds[0]) pos = thresholds[0]
+    if (pos > thresholds[thresholds.length - 1]) pos = thresholds[thresholds.length - 1]
+    // console.log(pos)
 
-  document.addEventListener('pointerup', event => {
+    handle.style.setProperty('transition-duration', '0s')
+    handle.style.setProperty('--handle-position', Math.floor(pos) + 'px')
+  }
+
+  /** @param {PointerEvent} event */
+  function dragEnd(event) {
     handlePressed = false
-  })
+    snapToOption()
+    document.removeEventListener('pointermove', drag)
+    // remove inline styles to make the handle gracefully snap to taret
+    handle.removeAttribute('style')
+    document.body.removeAttribute('style')
+  }
 
-  //
+  function snapToOption() {
+    // determine which radio to select
+    let handlePosition = parseInt(handle.style.getPropertyValue('--handle-position'))
+    let x = handlePosition + handleOffsetLeft + (handle.clientWidth / 2)
+    console.log(x)
+
+    let options = ['dark', 'light', 'purple']
+
+    for (let i = thresholds.length - 1; i >= 0; i--) {
+      if (x >= thresholds[i]) {
+        themeSwitch.elements['theme'][i].click()
+        break
+      }
+    }
+  }
 </script>
