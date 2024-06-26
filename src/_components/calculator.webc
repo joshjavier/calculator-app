@@ -9,5 +9,6 @@
     width: min(100%, 540px);
     line-height: normal;
     container: calculator / inline-size;
+    user-select: none; /* prevents text selection which can cause drag events */
   }
 </style>

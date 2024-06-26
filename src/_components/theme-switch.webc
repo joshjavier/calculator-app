@@ -56,7 +56,6 @@
       display: flex;
       background-color: var(--color-switch-track, var(--color-ebony-clay));
       position: relative;
-      user-select: none; /* prevents text selection which can cause drag events */
 
       & > :nth-child(1) { margin-right: -3px; }
       & > :nth-child(2) { margin-right: -4px; }
@@ -183,86 +182,117 @@
     Let's make the switch handle draggable!
   */
 
-  /* Utilities */
+  class DraggableSwitch {
+    /** @type {HTMLFormElement} switch - The switch element */
+    switch
+    /** @type {HTMLElement} track - The switch track element */
+    track
+    /** @type {HTMLElement} handle - The switch handle element */
+    handle
+    /** @type {boolean} handlePressed - True when the switch handle is pressed */
+    handlePressed
+    /** @type {number[]} thresholds - Array of pixel offsets of each option relative to the track */
+    thresholds
+    /** @type {number} min - Alias for the first item in the thresholds array */
+    min
+    /** @type {number} max - Alias for the last item in the thresholds array */
+    max
 
-  /**
-   * Returns the number of pixels from the left of the page to the left edge of the element
-   * @param {HTMLElement} element
-   * @returns {number}
-   */
-  function getOffsetLeft(element) {
-    if (!element) return 0
-    return getOffsetLeft(element.offsetParent) + element.offsetLeft
-  }
+    /** @param {string} selector */
+    constructor(selector) {
+      this.switch = document.querySelector(selector)
+      this.track = this.switch.querySelector('.track')
+      this.handle = this.switch.querySelector('.track svg')
+      this.thresholds = [...this.switch.elements['theme']].map(radio => radio.offsetLeft)
+      this.min = this.thresholds[0]
+      this.max = this.thresholds[this.thresholds.length - 1]
 
-  /**
-   * Returns the x coordinate of the pointer relative to the element
-   * @param {number} pageX
-   * @param {HTMLElement} element
-   * @returns {number}
-   */
-  function getInnerX(pageX, element) {
-    return Math.floor(pageX - getOffsetLeft(element))
-  }
+      this.pressHandle = this.pressHandle.bind(this)
+      this.dragHandle = this.dragHandle.bind(this)
+      this.releaseHandle = this.releaseHandle.bind(this)
 
-  /**
-   * Returns the size of the switch handle including margin in pixels
-   * @returns {number}
-   */
-  function getHandleSize() {
-    const margin = parseInt(getComputedStyle(handle).margin)
-    return handle.clientWidth + (margin * 2)
-  }
+      this.track.addEventListener('pointerdown', this.pressHandle)
+    }
 
-  /* Variables */
+    /**
+     * Returns the number of pixels from the left of the page to the left edge of the element
+     * @param {HTMLElement} element
+     * @returns {number}
+     */
+    getOffsetLeft(element) {
+      if (!element) return 0
+      return this.getOffsetLeft(element.offsetParent) + element.offsetLeft
+    }
 
-  /** @type {boolean} handlePressed - True when the switch handle is pressed */
-  let handlePressed
-  /** @type {HTMLElement} track - The switch track */
-  const track = themeSwitch.querySelector('.track')
-  /** @type {HTMLElement} handle - The switch handle */
-  const handle = themeSwitch.querySelector('.track svg')
-  /** @type {number[]} thresholds - Array of starting thresholds in px for each option */
-  const thresholds = [...themeSwitch.elements['theme']].map(radio => radio.offsetLeft)
+    /**
+     * Returns the x coordinate of the pointer relative to the element
+     * @param {number} pageX
+     * @param {HTMLElement} element
+     * @returns {number}
+     */
+    getInnerX(clientX, element) {
+      return Math.floor(clientX - this.getOffsetLeft(element))
+    }
 
-  track.addEventListener('pointerdown', function (event) {
-    handlePressed = event.target !== this
+    /**
+     * Returns the size of the element including margin in pixels
+     * @returns {number}
+     */
+    getSize(element) {
+      const margin = parseInt(getComputedStyle(element).margin)
+      return element.clientWidth + (margin * 2)
+    }
 
-    document.addEventListener('pointermove', dragHandle)
-    document.addEventListener('pointerup', releaseHandle, { once: true })
-  })
+    /** @param {PointerEvent} event */
+    pressHandle(event) {
+      this.handlePressed = event.target !== this.track && event.target.type !== 'radio'
 
-  /** @param {PointerEvent} event */
-  function dragHandle(event) {
-    if (!handlePressed) return
+      document.addEventListener('pointermove', this.dragHandle)
+      document.addEventListener('pointerup', this.releaseHandle, { once: true })
+      document.addEventListener('pointercancel', this.releaseHandle, { once: true })
+    }
 
-    let x = getInnerX(event.pageX, track)
-    let pos = x - (getHandleSize() / 2)
-    if (pos < thresholds[0]) pos = thresholds[0]
-    if (pos > thresholds[thresholds.length - 1]) pos = thresholds[thresholds.length - 1]
+    /** @param {PointerEvent} event */
+    dragHandle(event) {
+      if (!this.handlePressed) return
 
-    handle.style.setProperty('transition-duration', '0s')
-    handle.style.setProperty('--handle-position', pos + 'px')
-  }
+      let x = this.getInnerX(event.clientX, this.track)
+      let pos = x - (this.getSize(this.handle) / 2)
+      if (pos < this.min) pos = this.min
+      if (pos > this.max) pos = this.max
 
-  /** @param {PointerEvent} event */
-  function releaseHandle(event) {
-    handlePressed = false
-    snapToOption(getInnerX(event.pageX, track))
-    handle.removeAttribute('style')
-    document.removeEventListener('pointermove', dragHandle)
-  }
+      this.handle.style.setProperty('transition-duration', '0s')
+      this.handle.style.setProperty('--handle-position', pos + 'px')
+    }
 
-  /**
-   * Snap the handle to the option closest to the x coordinate
-   * @param {number} x
-   */
-  function snapToOption(x) {
-    for (let i = thresholds.length - 1; i >= 0; i--) {
-      if (x >= thresholds[i] || i === 0) {
-        themeSwitch.elements['theme'][i].click()
-        return
+    /** @param {PointerEvent} event */
+    releaseHandle(event) {
+      if (!this.handlePressed) return
+
+      this.handlePressed = false
+      this.snapToOption(this.getInnerX(event.clientX, this.track))
+      this.handle.removeAttribute('style')
+
+      // Cleanup
+      document.removeEventListener('pointermove', this.dragHandle)
+      if (event.type === 'pointerup') document.removeEventListener('pointercancel', this.releaseHandle)
+      if (event.type === 'pointercancel') document.removeEventListener('pointerup', this.releaseHandle)
+
+    }
+
+    /**
+     * Snap the handle to the option closest to the x coordinate
+     * @param {number} x
+     */
+    snapToOption(x) {
+      for (let i = this.thresholds.length - 1; i >= 0; i--) {
+        if (x > this.thresholds[i] || i === 0) {
+          this.switch.elements['theme'][i].click()
+          return
+        }
       }
     }
   }
+
+  new DraggableSwitch('#theme-switch')
 </script>
