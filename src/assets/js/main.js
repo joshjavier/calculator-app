@@ -1,1 +1,3 @@
-console.log('Hello, world!')
+import DraggableSwitch from "./_draggable-switch"
+
+new DraggableSwitch('#theme-switch')
