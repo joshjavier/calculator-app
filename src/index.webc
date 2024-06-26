@@ -8,6 +8,7 @@
 
   <link rel="stylesheet" href="/assets/css/main.css" webc:keep>
   <script type="module" :src="getBundleFileUrl('js', 'defer')" webc:keep></script>
+  <script type="module" src="/assets/js/main.js" webc:keep></script>
 
   <title>Frontend Mentor | Calculator app</title>
 

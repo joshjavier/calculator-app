@@ -11,5 +11,6 @@
     background-color: var(--color-display-bg, var(--color-dark));
     color: var(--color-display-text, #fff);
     margin-bottom: 24px;
+    user-select: text;
   }
 </style>

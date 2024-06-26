@@ -10,24 +10,12 @@
           <div>3</div>
         </div>
         <div class="track">
-          <div class="radio-wrapper">
-            <input type="radio" name="theme" id="dark" value="dark" aria-label="dark theme">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
-              <circle cx="8" cy="8" r="8" />
-            </svg>
-          </div>
-          <div class="radio-wrapper">
-            <input type="radio" name="theme" id="light" value="light" aria-label="light theme">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
-              <circle cx="8" cy="8" r="8" />
-            </svg>
-          </div>
-          <div class="radio-wrapper">
-            <input type="radio" name="theme" id="purple" value="purple" aria-label="purple theme">
-            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
-              <circle cx="8" cy="8" r="8" />
-            </svg>
-          </div>
+          <input type="radio" name="theme" id="dark" value="dark" aria-label="dark theme" checked>
+          <input type="radio" name="theme" id="light" value="light" aria-label="light theme">
+          <input type="radio" name="theme" id="purple" value="purple" aria-label="purple theme">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="8" cy="8" r="8" />
+          </svg>
         </div>
       </div>
     </div>
@@ -67,50 +55,47 @@
       border-radius: 13px;
       display: flex;
       background-color: var(--color-switch-track, var(--color-ebony-clay));
+      position: relative;
 
       & > :nth-child(1) { margin-right: -3px; }
       & > :nth-child(2) { margin-right: -4px; }
-
-      /* &:has(input[type="radio"]:focus-visible) {
-        outline: var(--fluid-6-9) double black;
-        box-shadow: 0 0 0 var(--fluid-4-6) white;
-      } */
     }
-  }
-
-  .radio-wrapper {
-    width: 26px;
-    height: 26px;
-    position: relative;
 
     & input[type="radio"] {
-      position: absolute;
       width: 26px;
       height: 26px;
       margin: 0;
       opacity: 0;
       cursor: pointer;
-      z-index: 1;
 
-      & + svg {
+      /* send the selected radio button behind the switch track to put the handle on top */
+      &:checked { z-index: -1; }
+
+      & ~ svg {
         margin: 5px;
         border-radius: 9999em;
-      }
+        fill: var(--color-switch-handle, var(--color-persian-red));
+        position: absolute;
+        transition: transform 0.3s ease;
+        transform: translateX(var(--handle-position));
+        cursor: pointer;
 
-      &:checked {
-        & + svg {
-          fill: var(--color-switch-handle, var(--color-persian-red));
-        }
-
-        &:hover + svg {
+        &:hover {
           fill: var(--color-switch-handle-hover, var(--color-bittersweet));
         }
+      }
 
-        &:focus-visible + svg {
-          outline: var(--fluid-6-9) double black;
-          box-shadow: 0 0 0 var(--fluid-4-6) white;
-          /* box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-switch-handle, var(--color-persian-red)), transparent 50%); */
-        }
+      &:focus-visible ~ svg {
+        outline: var(--fluid-6-9) double black;
+        box-shadow: 0 0 0 var(--fluid-4-6) white;
+      }
+
+      &:nth-child(2):checked ~ svg {
+        --handle-position: 23px;
+      }
+
+      &:nth-child(3):checked ~ svg {
+        --handle-position: 45px;
       }
     }
   }
@@ -144,17 +129,16 @@
    * Updates the DOM to reflect the theme change
    */
   function reflectThemeChange() {
-    document.firstElementChild.setAttribute('data-theme', theme)
+    document.documentElement.setAttribute('data-theme', theme)
 
-    themeSwitch = themeSwitch || document.querySelector('#theme-switch')
-    if (themeSwitch) {
-      const themeRadios = themeSwitch.elements['theme']
+    if (document.readyState === 'loading') return
 
-      // If needed, check the radio button that corresponds to the current theme
-      if (themeRadios.value !== theme) {
-        const themeRadio = [...themeRadios].find(radio => radio.id === theme)
-        themeRadio.checked = true
-      }
+    if (!themeSwitch) {
+      themeSwitch = document.querySelector('#theme-switch')
+    }
+
+    if (themeSwitch.elements['theme'].value !== theme) {
+      themeSwitch.elements['theme'].value = theme
     }
   }
 
@@ -177,12 +161,10 @@
   // Call once DOM is ready to sync radio buttons with the theme state
   reflectThemeChange()
 
-  // Bind event handlers to update the theme on switch interaction
-  themeSwitch.elements['theme'].forEach(radio => {
-    radio.addEventListener('change', event => {
-      theme = event.target.id
-      setThemePreference()
-    })
+  // Bind event handler to update the theme on switch interaction
+  themeSwitch.addEventListener('change', event => {
+    theme = event.target.id
+    setThemePreference()
   })
 
   // Bind event handler to update the theme when `prefers-color-scheme` changes
