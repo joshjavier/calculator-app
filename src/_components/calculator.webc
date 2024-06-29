@@ -12,3 +12,89 @@
     user-select: none; /* prevents text selection which can cause drag events */
   }
 </style>
+
+<script webc:bucket="defer">
+  class Calculator {
+    constructor() {
+      this.currentValue = '';
+      this.result = 0;
+      this.operator = null;
+    }
+
+    inputDigit(digit) {
+      if (digit === '.' && this.currentValue.includes('.')) {
+        return; // Prevent multiple decimal points
+      }
+      this.currentValue += digit;
+    }
+
+    setOperator(operator) {
+      if (this.currentValue === '') {
+        return; // Prevent setting an operator without a number
+      }
+      if (this.operator !== null) {
+        this.calculate(); // Perform the calculation if there's an existing operator
+      } else {
+        this.result = parseFloat(this.currentValue);
+      }
+      this.currentValue = '';
+      this.operator = operator;
+    }
+
+    calculate() {
+      if (this.currentValue === '') {
+        return; // Prevent calculation without a second operand
+      }
+      const current = parseFloat(this.currentValue);
+      switch (this.operator) {
+        case '+':
+          this.result += current;
+          break;
+        case '-':
+          this.result -= current;
+          break;
+        case '*':
+          this.result *= current;
+          break;
+        case '/':
+          if (current === 0) {
+            alert('Error: Division by zero');
+            return;
+          }
+          this.result /= current;
+          break;
+        default:
+          return;
+      }
+      this.operator = null;
+      this.currentValue = this.result.toString();
+    }
+
+    clear() {
+      this.currentValue = '';
+      this.result = 0;
+      this.operator = null;
+    }
+
+    getDisplayValue() {
+      return this.currentValue === '' ? this.result.toString() : this.currentValue;
+    }
+  }
+
+  // Example usage:
+  const calculator = new Calculator();
+
+  calculator.inputDigit('5');
+  calculator.setOperator('+');
+  calculator.inputDigit('3');
+  calculator.calculate();
+  console.log(calculator.getDisplayValue()); // Outputs: 8
+
+  calculator.setOperator('*');
+  calculator.inputDigit('2');
+  calculator.calculate();
+  console.log(calculator.getDisplayValue()); // Outputs: 16
+
+  calculator.clear();
+  console.log(calculator.getDisplayValue()); // Outputs: 0
+</script>
