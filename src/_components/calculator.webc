@@ -14,18 +14,66 @@
 </style>
 
 <script webc:bucket="defer">
+  const DIGITS = /^[.0-9]$/
+  const OPERATORS = /^[\+\-\*\/]$/
+
   class Calculator {
-    constructor() {
+    constructor(selectors) {
       this.currentValue = '';
       this.result = 0;
       this.operator = null;
+      this.displayWidth = 10; // Maximum number of characters the display can accommodate
+
+      this.bindToDOM(selectors)
+    }
+
+    bindToDOM(selectors) {
+      this.root = document.querySelector(selectors)
+      this.display = this.root.querySelector('display')
+      this.keypad = this.root.querySelector('keypad')
+
+      this.pressKey = this.pressKey.bind(this)
+
+      this.keypad.addEventListener('click', this.pressKey)
+    }
+
+    updateDisplay() {
+      this.display.textContent = this.getDisplayValue()
+    }
+
+    /** @param {PointerEvent} event */
+    pressKey(event) {
+      /** @type {string} key */
+      let key = event.target.textContent
+      key = key.replace('\u2212', '-') // Replace &minus; with -
+      key = key.replace('\u00d7', '*') // Replace &times; with *
+
+      if (DIGITS.test(key)) {
+        this.inputDigit(key)
+      } else if (OPERATORS.test(key)) {
+        this.setOperator(key)
+      } else if (key === '=') {
+        this.calculate()
+      } else if (key === 'RESET') {
+        this.clear()
+      } else if (key === 'DEL') {
+        this.clearEntry()
+      }
+
+      this.updateDisplay()
     }
 
     inputDigit(digit) {
       if (digit === '.' && this.currentValue.includes('.')) {
         return; // Prevent multiple decimal points
       }
-      this.currentValue += digit;
+      if (this.currentValue === '0' && digit !== '.') {
+        this.currentValue = digit; // Prevent leading zeroes
+      } else if (this.currentValue === '' && digit === '.') {
+        this.currentValue = '0.'; // Except for decimals less than 1
+      } else {
+        this.currentValue += digit;
+      }
     }
 
     setOperator(operator) {
@@ -67,7 +115,7 @@
           return;
       }
       this.operator = null;
-      this.currentValue = this.result.toString();
+      this.currentValue = this.formatOutput(this.result);
     }
 
     clear() {
@@ -76,13 +124,27 @@
       this.operator = null;
     }
 
+    clearEntry() {
+      this.currentValue = '0';
+    }
+
+    formatOutput(value) {
+      const strValue = value.toString();
+      if (strValue.length <= this.displayWidth) {
+        return strValue;
+      }
+      // Calculate the maximum number of decimal places that fit in the display
+      const maxDecimals = this.displayWidth - Math.floor(value).toString().length - 1;
+      return value.toFixed(maxDecimals > 0 ? maxDecimals : 0);
+    }
+
     getDisplayValue() {
-      return this.currentValue === '' ? this.result.toString() : this.currentValue;
+      return this.currentValue === '' ? this.formatOutput(this.result) : this.currentValue;
     }
   }
 
   // Example usage:
-  const calculator = new Calculator();
+  const calculator = new Calculator('calculator');
 
   calculator.inputDigit('5');
   calculator.setOperator('+');
@@ -90,8 +152,8 @@
   calculator.calculate();
   console.log(calculator.getDisplayValue()); // Outputs: 8
 
-  calculator.setOperator('*');
-  calculator.inputDigit('2');
+  calculator.setOperator('/');
+  calculator.inputDigit('3');
   calculator.calculate();
   console.log(calculator.getDisplayValue()); // Outputs: 16
 
