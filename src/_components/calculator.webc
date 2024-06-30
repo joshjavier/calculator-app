@@ -165,9 +165,9 @@
       }
       // Calculate the maximum number of decimal places that fit in the display
       const maxDecimals = this.displayWidth - format(Math.floor(value)).length - 1;
-      return maxDecimals > 0
-        ? format(value, { maximumFractionDigits: maxDecimals })
-        : value.toPrecision(this.displayWidth - 6)
+      return maxDecimals >= -1
+        ? format(value, { maximumFractionDigits: maxDecimals > 0 ? maxDecimals : 0 })
+        : value.toPrecision(this.displayWidth - 6);
     }
 
     getDisplayValue() {
