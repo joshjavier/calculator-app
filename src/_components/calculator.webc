@@ -50,6 +50,10 @@
 
     bindKeys() {
       document.addEventListener('keydown', event => {
+        if (event.altKey || event.ctrlKey || event.metaKey) {
+          return // Ignore keypress if a modifer key is also pressed
+        }
+
         const press = keyId => {
           event.preventDefault()
 
