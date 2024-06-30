@@ -58,7 +58,8 @@
       }
     }
 
-    &:active {
+    &:active,
+    &.active {
       top: 4px;
 
       &:not(:focus-visible) {

@@ -14,9 +14,6 @@
 </style>
 
 <script webc:bucket="defer">
-  const DIGITS = /^[.0-9]$/
-  const OPERATORS = /^[\+\-\*\/]$/
-
   class Calculator {
     constructor(selectors) {
       this.currentValue = '';
@@ -25,6 +22,7 @@
       this.displayWidth = 10; // Maximum number of characters the display can accommodate
 
       this.bindToDOM(selectors)
+      this.bindKeys()
     }
 
     bindToDOM(selectors) {
@@ -32,35 +30,54 @@
       this.display = this.root.querySelector('display')
       this.keypad = this.root.querySelector('keypad')
 
-      this.pressKey = this.pressKey.bind(this)
+      this.updateDisplay()
 
-      this.keypad.addEventListener('click', this.pressKey)
+      this.keypad.addEventListener('click', event => {
+        const keyId = event.target.id
+        if (/^[.0-9]$/.test(keyId)) {
+          this.inputDigit(keyId)
+        } else if (['+', '-', '*', '/'].includes(keyId)) {
+          this.setOperator(keyId)
+        } else if (keyId === '=') {
+          this.calculate()
+        } else if (keyId === 'reset') {
+          this.clear()
+        } else if (keyId === 'del') {
+          this.clearEntry()
+        }
+      })
+    }
+
+    bindKeys() {
+      document.addEventListener('keydown', event => {
+        const press = keyId => {
+          event.preventDefault()
+
+          const button = this.keypad.children.namedItem(keyId)
+          button.classList.add('active')
+          button.focus()
+          button.click()
+
+          document.addEventListener('keyup', () => {
+            button.classList.remove('active')
+          }, { once: true })
+        }
+
+        const key = event.key
+        if (/^[.0-9]$/.test(key) || ['+', '-', '*', '/'].includes(key)) {
+          press(key)
+        } else if (key === 'Enter' || key === '=') {
+          press('=')
+        } else if (key === 'Escape' || key === 'r') {
+          press('reset')
+        } else if (key === 'Delete' || key === 'd') {
+          press('del')
+        }
+      })
     }
 
     updateDisplay() {
       this.display.textContent = this.getDisplayValue()
-    }
-
-    /** @param {PointerEvent} event */
-    pressKey(event) {
-      /** @type {string} key */
-      let key = event.target.textContent
-      key = key.replace('\u2212', '-') // Replace &minus; with -
-      key = key.replace('\u00d7', '*') // Replace &times; with *
-
-      if (DIGITS.test(key)) {
-        this.inputDigit(key)
-      } else if (OPERATORS.test(key)) {
-        this.setOperator(key)
-      } else if (key === '=') {
-        this.calculate()
-      } else if (key === 'RESET') {
-        this.clear()
-      } else if (key === 'DEL') {
-        this.clearEntry()
-      }
-
-      this.updateDisplay()
     }
 
     inputDigit(digit) {
@@ -71,9 +88,10 @@
         this.currentValue = digit; // Prevent leading zeroes
       } else if (this.currentValue === '' && digit === '.') {
         this.currentValue = '0.'; // Except for decimals less than 1
-      } else {
-        this.currentValue += digit;
+      } else if (this.currentValue.length < this.displayWidth) {
+        this.currentValue += digit; // Limit input digits to the display width
       }
+      this.updateDisplay();
     }
 
     setOperator(operator) {
@@ -87,6 +105,7 @@
       }
       this.currentValue = '';
       this.operator = operator;
+      this.updateDisplay();
     }
 
     calculate() {
@@ -116,16 +135,19 @@
       }
       this.operator = null;
       this.currentValue = this.formatOutput(this.result);
+      this.updateDisplay();
     }
 
     clear() {
       this.currentValue = '';
       this.result = 0;
       this.operator = null;
+      this.updateDisplay();
     }
 
     clearEntry() {
       this.currentValue = '0';
+      this.updateDisplay();
     }
 
     formatOutput(value) {
