@@ -19,7 +19,7 @@
       this.currentValue = '';
       this.result = 0;
       this.operator = null;
-      this.displayWidth = 10; // Maximum number of characters the display can accommodate
+      this.displayWidth = 11; // Maximum number of characters the display can accommodate
 
       this.bindToDOM(selectors)
       this.bindKeys()
@@ -92,7 +92,7 @@
         this.currentValue = digit; // Prevent leading zeroes
       } else if (this.currentValue === '' && digit === '.') {
         this.currentValue = '0.'; // Except for decimals less than 1
-      } else if (this.currentValue.length < this.displayWidth) {
+      } else if (this.currentValue.length < this.displayWidth - 2) {
         this.currentValue += digit; // Limit input digits to the display width
       }
       this.updateDisplay();
@@ -105,7 +105,7 @@
       if (this.operator !== null) {
         this.calculate(); // Perform the calculation if there's an existing operator
       } else {
-        this.result = parseFloat(this.currentValue);
+        this.result = parseFloat(this.currentValue.replace(/,/g, ''));
       }
       this.currentValue = '';
       this.operator = operator;
@@ -116,7 +116,7 @@
       if (this.currentValue === '') {
         return; // Prevent calculation without a second operand
       }
-      const current = parseFloat(this.currentValue);
+      const current = parseFloat(this.currentValue.replace(/,/g, ''));
       switch (this.operator) {
         case '+':
           this.result += current;
@@ -155,13 +155,19 @@
     }
 
     formatOutput(value) {
-      const strValue = value.toString();
+      const format = (number, opts) => {
+        opts = { maximumFractionDigits: this.displayWidth - 2, ...opts };
+        return new Intl.NumberFormat('en-US', opts).format(number);
+      };
+      const strValue = format(value);
       if (strValue.length <= this.displayWidth) {
         return strValue;
       }
       // Calculate the maximum number of decimal places that fit in the display
-      const maxDecimals = this.displayWidth - Math.floor(value).toString().length - 1;
-      return value.toFixed(maxDecimals > 0 ? maxDecimals : 0);
+      const maxDecimals = this.displayWidth - format(Math.floor(value)).length - 1;
+      return maxDecimals > 0
+        ? format(value, { maximumFractionDigits: maxDecimals })
+        : value.toPrecision(this.displayWidth - 6)
     }
 
     getDisplayValue() {
