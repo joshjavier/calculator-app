@@ -1,94 +1,109 @@
-# Frontend Mentor - Calculator app
+# Frontend Mentor - Calculator app solution
 
-![Design preview for the Calculator app coding challenge](./design/desktop-preview.jpg)
+This is a solution to the [Calculator app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/calculator-app-9lteq5N29). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
-## Welcome! 👋
+## Table of contents
 
-Thanks for checking out this front-end coding challenge.
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Continued development](#continued-development)
+  - [Useful resources](#useful-resources)
+- [Author](#author)
+- [Acknowledgments](#acknowledgments)
 
-[Frontend Mentor](https://www.frontendmentor.io) challenges help you improve your coding skills by building realistic projects.
+## Overview
 
-**To do this challenge, you need a good understanding of HTML, CSS and JavaScript.**
+### The challenge
 
-## The challenge
+Users should be able to:
 
-Your challenge is to build out this calculator app and get it looking as close to the design as possible.
+- [x] See the size of the elements adjust based on their device's screen size
+- [ ] Perform mathmatical operations like addition, subtraction, multiplication, and division
+- [x] Adjust the color theme based on their preference
+- [x] **Bonus**: Have their initial theme preference checked using `prefers-color-scheme` and have any additional changes saved in the browser
 
-You can use any tools you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
+### Screenshot
 
-Your users should be able to:
+![](./docs/screenshot.png)
 
-- See the size of the elements adjust based on their device's screen size
-- Perform mathematical operations like addition, subtraction, multiplication, and division
-- Adjust the color theme based on their preference
-- **Bonus**: Have their initial theme preference checked using `prefers-color-scheme` and have any additional changes saved in the browser
+### Links
 
-Want some support on the challenge? [Join our community](https://www.frontendmentor.io/community) and ask questions in the **#help** channel.
+- Solution URL: [Add solution URL here](https://your-solution-url.com)
+- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
 
-## Where to find everything
+## My process
 
-Your task is to build out the project to the designs inside the `/design` folder. You will find both a mobile and a desktop version of the design. 
+### Built with
 
-The designs are in JPG static format. Using JPGs will mean that you'll need to use your best judgment for styles such as `font-size`, `padding` and `margin`. 
+- Semantic HTML5 markup
+- CSS custom properties for design tokens (see [_base.css]())
+- [A (more) modern CSS reset](https://piccalil.li/blog/a-more-modern-css-reset/)
+- [11ty](https://www.11ty.dev/) - simpler static site generator
+- [Lightning CSS](https://lightningcss.dev/) - CSS bundler
+- [esbuild](https://esbuild.github.io/) - JS bundler
 
-If you would like the design files (we provide Sketch & Figma versions) to inspect the design in more detail, you can [subscribe as a PRO member](https://www.frontendmentor.io/pro).
+### What I learned
 
-You will find all the required assets in the `/images` folder. The assets are already optimized.
+#### [CSS container query units are not supported in Safari on iOS <= 15.8](https://caniuse.com/css-container-query-units)
 
-There is also a `style-guide.md` file containing the information you'll need, such as color palette and fonts.
+For context, I'm using an iPhone SE (1st gen) for mobile testing on my projects, which is nice because I also get to check if my work is accessible on an old device. I was so frustrated at first because the display and keypad layout stays broken even though it looks good on desktop.
 
-## Building your project
+![](./docs/layout-before-after.jpg)
 
-Feel free to use any workflow that you feel comfortable with. Below is a suggested process, but do not feel like you need to follow these steps:
+It took me a while to figure out that the issue was caused by the container query units that I used for the fluid type and spacing. My first idea was to use a [container query polyfill](https://github.com/GoogleChromeLabs/container-query-polyfill), but I couldn't make it work. So I went the progressive enhancement approach: use `vi` for fluid values, and then conditionally override these with `cqi` for browsers that support container queries.
 
-1. Initialize your project as a public repository on [GitHub](https://github.com/). Creating a repo will make it easier to share your code with the community if you need help. If you're not sure how to do this, [have a read-through of this Try Git resource](https://try.github.io/).
-2. Configure your repository to publish your code to a web address. This will also be useful if you need some help during a challenge as you can share the URL for your project with your repo URL. There are a number of ways to do this, and we provide some recommendations below.
-3. Look through the designs to start planning out how you'll tackle the project. This step is crucial to help you think ahead for CSS classes to create reusable styles.
-4. Before adding any styles, structure your content with HTML. Writing your HTML first can help focus your attention on creating well-structured content.
-5. Write out the base styles for your project, including general content styles, such as `font-family` and `font-size`.
-6. Start adding styles to the top of the page and work down. Only move on to the next section once you're happy you've completed the area you're working on.
+```css
+/* fluid values are initially implemented using vi */
+--fluid-10-24: clamp(0.625rem, -0.4198rem + 5.2239vi, 1.5rem);
 
-## Deploying your project
+/* then switch to cqi for browsers that support container queries */
+@supports (container-type: inline-size) {
+  --fluid-10-24: clamp(0.625rem, -0.6477rem + 6.3636cqi, 1.5rem);
+}
+```
 
-As mentioned above, there are many ways to host your project for free. Our recommended hosts are:
+Why not use viewport units exclusively? Adding support for container query units means I can use this calculator component in other contexts. For example, in the future I can place it in the sidebar of my blog and it will still have responsive type and spacing.
 
-- [GitHub Pages](https://pages.github.com/)
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
+#### Implementing a progressively-enhanced 3-way theme toggle switch component
 
-You can host your site using one of these solutions or any of our other trusted providers. [Read more about our recommended and trusted hosts](https://medium.com/frontend-mentor/frontend-mentor-trusted-hosting-providers-bf000dfebe).
+Even though this is a secondary feature, I actually worked on this first, but only because I've already built a [calculator](https://github.com/joshjavier/calculator) before and am already familiar with the JavaScript implementation.
 
-## Create a custom `README.md`
+Building this was fun! Here's a quick breakdown:
 
-We strongly recommend overwriting this `README.md` with a custom one. We've provided a template inside the [`README-template.md`](./README-template.md) file in this starter code.
+- For the HTML, I used a fieldset of radio buttons since the functionality we need to build (selecting a theme will deselect the previous theme) is most closely resembled by radio buttons (only one radio button in a set can be selected at a time).
 
-The template provides a guide for what to add. A custom `README` will help you explain your project and reflect on your learnings. Please feel free to edit our template as much as you like.
+- For the CSS, I replaced the default browser styles with a custom one according to the design. The switch handle is an SVG circle that moves along the switch track to match the currently selected theme.
 
-Once you've added your information to the template, delete this file and rename the `README-template.md` file to `README.md`. That will make it show up as your repository's README file.
+- For the JavaScript, I wrote functions for storing the theme state, saving/loading the theme preference to/from local storage, and updating the `data-theme` attribute in the `<html>` to reflect the current theme.
 
-## Submitting your solution
+- For progressive enhancement, I created a `DraggableSwitch` class that makes the handle draggable, but retains the native radio button functionality.
 
-Submit your solution on the platform for the rest of the community to see. Follow our ["Complete guide to submitting solutions"](https://medium.com/frontend-mentor/a-complete-guide-to-submitting-solutions-on-frontend-mentor-ac6384162248) for tips on how to do this.
+I also learned to leverage the [asset bucketing](https://www.11ty.dev/docs/languages/webc/#asset-bucketing) feature of Eleventy and WebC to [prevent color flashes](https://web.dev/articles/building/a-theme-switch-component#the_page_load_experience) when reloading the page. See [theme-switch.webc]() to get a closer look.
 
-Remember, if you're looking for feedback on your solution, be sure to ask questions when submitting it. The more specific and detailed you are with your questions, the higher the chance you'll get valuable feedback from the community.
+<!-- ### Continued development
 
-## Sharing your solution
+Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
 
-There are multiple places you can share your solution:
+**Note: Delete this note and the content within this section and replace with your own plans for continued development.** -->
 
-1. Share your solution page in the **#finished-projects** channel of the [community](https://www.frontendmentor.io/community). 
-2. Tweet [@frontendmentor](https://twitter.com/frontendmentor) and mention **@frontendmentor**, including the repo and live URLs in the tweet. We'd love to take a look at what you've built and help share it around.
-3. Share your solution on other social channels like LinkedIn.
-4. Blog about your experience building your project. Writing about your workflow, technical choices, and talking through your code is a brilliant way to reinforce what you've learned. Great platforms to write on are [dev.to](https://dev.to/), [Hashnode](https://hashnode.com/), and [CodeNewbie](https://community.codenewbie.org/).
+### Useful resources
 
-We provide templates to help you share your solution once you've submitted it on the platform. Please do edit them and include specific questions when you're looking for feedback. 
+- [Building a switch component](https://web.dev/articles/building/a-switch-component) and [Building a theme switch component](https://web.dev/articles/building/a-theme-switch-component) - These two articles, both by Adam Argyle, were the primary inspiration for my implementation of the calculator's theme switcher. Adam did a brillient job explaining not only the *how* but also the *why*, which helped me combine these concepts into a progressively-enhanced 3-way theme toggle switch component.
+- [Inclusively Hiding & Styling Checkboxes and Radio Buttons](https://www.sarasoueidan.com/blog/inclusively-hiding-and-styling-checkboxes-and-radio-buttons/) - I always reference this whenever I have to add custom styling to checkboxes or radio buttons.
 
-The more specific you are with your questions, the more likely it is that another member of the community will give you feedback.
+## Author
 
-## Got feedback for us?
+<!-- - Website - [Josh Javier](https://joshjavier.com/) -->
+- Frontend Mentor - [@joshjavier](https://www.frontendmentor.io/profile/joshjavier)
+- Twitter - [@joshjavierr](https://www.twitter.com/joshjavierr)
 
-We love receiving feedback! We're always looking to improve our challenges and our platform. So if you have anything you'd like to mention, please email hi[at]frontendmentor[dot]io.
+<!-- ## Acknowledgments
 
-This challenge is completely free. Please share it with anyone who will find it useful for practice.
+This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
 
-**Have fun building!** 🚀
+**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.** -->

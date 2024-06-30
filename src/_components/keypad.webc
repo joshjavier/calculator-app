@@ -1,21 +1,21 @@
-<key>7</key>
-<key>8</key>
-<key>9</key>
-<key class="secondary" aria-label="delete">DEL</key>
-<key>4</key>
-<key>5</key>
-<key>6</key>
-<key>&plus;</key>
-<key>1</key>
-<key>2</key>
-<key>3</key>
-<key>&minus;</key>
-<key aria-label="decimal point">.</key>
-<key>0</key>
-<key aria-label="divide">/</key>
-<key>&times;</key>
-<key class="secondary big">RESET</key>
-<key class="primary big">=</key>
+<key id="7">7</key>
+<key id="8">8</key>
+<key id="9">9</key>
+<key id="del" class="secondary" aria-label="delete">DEL</key>
+<key id="4">4</key>
+<key id="5">5</key>
+<key id="6">6</key>
+<key id="+">&plus;</key>
+<key id="1">1</key>
+<key id="2">2</key>
+<key id="3">3</key>
+<key id="-">&minus;</key>
+<key id="." aria-label="decimal point">.</key>
+<key id="0">0</key>
+<key id="/" aria-label="divide">/</key>
+<key id="*">&times;</key>
+<key id="reset" class="secondary big">RESET</key>
+<key id="=" class="primary big">=</key>
 
 <style>
   keypad {
