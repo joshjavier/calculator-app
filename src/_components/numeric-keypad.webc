@@ -128,6 +128,8 @@
             result = this.moveTo(newRow, newCol)
             break
           }
+          case ' ':
+            event.target.classList.add('active')
           default:
             break;
         }
@@ -137,6 +139,12 @@
           this.prevRow = row
           this.prevCol = col
         }
+
+        document.addEventListener('keyup', event => {
+          if (event.target.classList.contains('active')) {
+            event.target.classList.remove('active')
+          }
+        }, { once: true })
       })
     }
 
