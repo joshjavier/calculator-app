@@ -1,2 +1,220 @@
 @import "_reset.css";
 @import "_fonts.css";
+
+:root {
+  /*********************************
+               Colors
+  *********************************/
+
+  --color-dark: #181F33;
+  --color-ebony-clay: #242D44;
+  --color-pickled-bluewood: #3A4663;
+  --color-platinum-orange: #EAE3DC;
+  --color-martini: #B3A497;
+  --color-persian-red: #D03F2F;
+  --color-bittersweet: #F96B5B;
+  --color-vivid-auburn: #93261A;
+  --color-waikawa-grey: #647198;
+  --color-carolina-blue: #A2B2E1;
+  --color-dusk: #414E73;
+  --color-river-bed: #434A59;
+
+  --color-mercury: #E6E6E6;
+  --color-grey-goose: #D2CDCD;
+  --color-soft-peach: #EEEEEE;
+  --color-platinum: #E5E4E1;
+  --color-cement: #A79E91;
+  --color-rust-orange: #C85402;
+  --color-mango-orange: #FF8A38;
+  --color-rust-brown: #873901;
+  --color-greenish-blue: #378187;
+  --color-fountain-blue: #62B5BC;
+  --color-dark-green-blue: #1B6066;
+  --color-dune: #36362C;
+
+  --color-black-rock: #17062A;
+  --color-haiti: #1E0936;
+  --color-dark-purple: #331C4D;
+  --color-purple-heart: #6C34AC;
+  --color-violet-eggplant: #881C9E;
+  --color-aqua-blue: #00DED0;
+  --color-light-aquamarine: #93FFF8;
+  --color-electric-blue: #6CF9F1;
+  --color-indigo: #56077C;
+  --color-warm-purple: #8631AF;
+  --color-neon-purple: #BE15F4;
+  --color-banana-yellow: #FFE53D;
+  --color-dark-jungle-green: #1A2327;
+
+  /* Semantic colors */
+  --color-primary: var(--color-persian-red);
+  --color-secondary: var(--color-waikawa-grey);
+  --color-primary-hover: var(--color-bittersweet);
+  --color-secondary-hover: var(--color-carolina-blue);
+
+  /*********************************
+             Typography
+  *********************************/
+
+  --text-sans: 'League Spartan', Avenir, Montserrat, 'URW Gothic', source-sans-pro, sans-serif;
+  --text-bold: 700;
+
+  --text-s: 12px;
+  --text-m: var(--fluid-20-28);
+  --text-l: 32px;
+  --text-l-fluid: var(--fluid-32-40);
+  --text-xl: var(--fluid-40-56);
+
+  --tracking-tightest: calc(-1 * var(--fluid-0\.67-0\.93));
+  --tracking-tighter: calc(-1 * var(--fluid-0\.53-0\.67));
+  --tracking-tight: calc(-1 * var(--fluid-0\.33-0\.47));
+  --tracking--p53: -0.53px;
+  --tracking-wide: 1px;
+
+  /*********************************
+     Viewport-relative fluid props
+  *********************************/
+
+  /* @link https://utopia.fyi/clamp/calculator?a=375,1440,4—6 */
+  --fluid-4-6: clamp(0.25rem, 0.206rem + 0.1878vi, 0.375rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,1440,6—9 */
+  --fluid-6-9: clamp(0.375rem, 0.309rem + 0.2817vi, 0.5625rem);
+
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,0.33—0.47 */
+  --fluid-0\.33-0\.47: clamp(0.0206rem, 0.0052rem + 0.0657vi, 0.0294rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,0.53—0.67 */
+  --fluid-0\.53-0\.67: clamp(0.0331rem, 0.0177rem + 0.0657vi, 0.0419rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,0.67—0.93 */
+  --fluid-0\.67-0\.93: clamp(0.0419rem, 0.0133rem + 0.1221vi, 0.0581rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,3—1 */
+  --fluid-3-1: clamp(0.0625rem, 0.4076rem + -0.939vi, 0.1875rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,5—10 */
+  --fluid-5-10: clamp(0.3125rem, -0.2377rem + 2.3474vi, 0.625rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,20—28 */
+  --fluid-20-28: clamp(1.25rem, 0.3697rem + 3.7559vi, 1.75rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,24—32 */
+  --fluid-24-32: clamp(1.5rem, 0.6197rem + 3.7559vi, 2rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,32—40 */
+  --fluid-32-40: clamp(2rem, 1.1197rem + 3.7559vi, 2.5rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,40—56 */
+  --fluid-40-56: clamp(2.5rem, 0.7394rem + 7.5117vi, 3.5rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=375,588,88—128 */
+  --fluid-88-128: clamp(5.5rem, 1.0986rem + 18.7793vi, 8rem);
+
+  /* @link https://utopia.fyi/clamp/calculator?a=320,588,10—24 */
+  --fluid-10-24: clamp(0.625rem, -0.4198rem + 5.2239vi, 1.5rem);
+  /* @link https://utopia.fyi/clamp/calculator?a=320,588,20—32 */
+  --fluid-20-32: clamp(1.25rem, 0.3545rem + 4.4776vi, 2rem);
+
+  /* @link https://utopia.fyi/clamp/calculator?a=320,375,53—64 */
+  --fluid-53-64: clamp(3.3125rem, -0.6875rem + 20vi, 4rem);
+
+  /*********************************
+    Container-relative fluid props
+  *********************************/
+
+  /*
+    ✨ Progressive Enhancement ✨
+
+    If the browser supports container query units, make fluid spacing relative
+    to the container (i.e, <calculator>) so the calculator is more flexible.
+  */
+
+  @supports (container-type: inline-size) {
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.33—0.47 */
+    --fluid-0\.33-0\.47: clamp(0.0206rem, 0.0007rem + 0.0848cqi, 0.0294rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.53—0.67 */
+    --fluid-0\.53-0\.67: clamp(0.0331rem, 0.0132rem + 0.0848cqi, 0.0419rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,0.67—0.93 */
+    --fluid-0\.67-0\.93: clamp(0.0419rem, 0.0049rem + 0.1576cqi, 0.0581rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,3—1 */
+    --fluid-3-1: clamp(0.0625rem, 0.4716rem + -1.2121cqi, 0.1875rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,5—10 */
+    --fluid-5-10: clamp(0.3125rem, -0.3977rem + 3.0303cqi, 0.625rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=320,540,10—24 */
+    --fluid-10-24: clamp(0.625rem, -0.6477rem + 6.3636cqi, 1.5rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,20—28 */
+    --fluid-20-28: clamp(1.25rem, 0.1136rem + 4.8485cqi, 1.75rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=320,540,20—32 */
+    --fluid-20-32: clamp(1.25rem, 0.1591rem + 5.4545cqi, 2rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,24—32 */
+    --fluid-24-32: clamp(1.5rem, 0.3636rem + 4.8485cqi, 2rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,32—40 */
+    --fluid-32-40: clamp(2rem, 0.8636rem + 4.8485cqi, 2.5rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,40—56 */
+    --fluid-40-56: clamp(2.5rem, 0.2273rem + 9.697cqi, 3.5rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=320,375,53—64 */
+    --fluid-53-64: clamp(3.3125rem, -0.6875rem + 20cqi, 4rem);
+    /* @link https://utopia.fyi/clamp/calculator?a=375,540,88—128 */
+    --fluid-88-128: clamp(5.5rem, -0.1818rem + 24.2424cqi, 8rem);
+  }
+}
+
+* {
+  transition: background-color 0.5s;
+}
+
+html {
+  font-family: var(--text-sans);
+  font-weight: var(--text-bold);
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-sheet, var(--color-pickled-bluewood));
+  color: var(--color-text, #fff);
+}
+
+main {
+  padding: 30px 24px;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+:focus-visible {
+  outline: var(--fluid-6-9) double black;
+  box-shadow: 0 0 0 var(--fluid-4-6) white;
+}
+
+:root[data-theme="light"] {
+  --color-sheet: var(--color-mercury);
+  --color-text: var(--color-dune);
+  --color-switch-track: var(--color-grey-goose);
+  --color-switch-handle: var(--color-rust-orange);
+  --color-switch-handle-hover: var(--color-mango-orange);
+  --color-display-bg: var(--color-soft-peach);
+  --color-display-text: var(--color-dune);
+  --color-keypad: var(--color-grey-goose);
+  --color-key-text: var(--color-dune);
+  --color-key-bg: var(--color-platinum);
+  --color-key-shadow: var(--color-cement);
+  --color-key-primary-bg: var(--color-rust-orange);
+  --color-key-primary-hover: var(--color-mango-orange);
+  --color-key-primary-shadow: var(--color-rust-brown);
+  --color-key-secondary-bg: var(--color-greenish-blue);
+  --color-key-secondary-hover: var(--color-fountain-blue);
+  --color-key-secondary-shadow: var(--color-dark-green-blue);
+}
+
+:root[data-theme="purple"] {
+  --color-sheet: var(--color-black-rock);
+  --color-text: var(--color-banana-yellow);
+  --color-switch-track: var(--color-haiti);
+  --color-switch-handle: var(--color-aqua-blue);
+  --color-switch-handle-hover: var(--color-light-aquamarine);
+  --color-display-bg: var(--color-haiti);
+  --color-display-text: var(--color-banana-yellow);
+  --color-keypad: var(--color-haiti);
+  --color-key-text: var(--color-banana-yellow);
+  --color-key-bg: var(--color-dark-purple);
+  --color-key-hover: var(--color-purple-heart);
+  --color-key-shadow: var(--color-violet-eggplant);
+  --color-key-primary-text: var(--color-dark-jungle-green);
+  --color-key-primary-bg: var(--color-aqua-blue);
+  --color-key-primary-hover: var(--color-light-aquamarine);
+  --color-key-primary-shadow: var(--color-electric-blue);
+  --color-key-secondary-bg: var(--color-indigo);
+  --color-key-secondary-hover: var(--color-warm-purple);
+  --color-key-secondary-shadow: var(--color-neon-purple);
+}

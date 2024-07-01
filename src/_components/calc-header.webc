@@ -1,0 +1,22 @@
+<div class="calc-header" webc:root="override">
+  <h2 class="title">calc</h2>
+  <theme-switch></theme-switch>
+</div>
+
+<style>
+  .calc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 32px;
+
+    & .title {
+      font-weight: var(--text-bold);
+      font-size: var(--text-l);
+      line-height: normal;
+      letter-spacing: var(--tracking--p53);
+      margin-block: 0 var(--fluid-3-1);
+      margin-left: 7px;
+    }
+  }
+</style>

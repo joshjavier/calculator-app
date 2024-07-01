@@ -1,0 +1,169 @@
+<table id="keypad" role="grid">
+  <tbody>
+    <tr>
+      <td><key id="7">7</key></td>
+      <td><key id="8">8</key></td>
+      <td><key id="9">9</key></td>
+      <td><key id="del" class="secondary" aria-label="delete">DEL</key></td>
+    </tr>
+    <tr>
+      <td><key id="4">4</key></td>
+      <td><key id="5">5</key></td>
+      <td><key id="6">6</key></td>
+      <td><key id="+">&plus;</key></td>
+    </tr>
+    <tr>
+      <td><key id="1">1</key></td>
+      <td><key id="2">2</key></td>
+      <td><key id="3">3</key></td>
+      <td><key id="-">&minus;</key></td>
+    </tr>
+    <tr>
+      <td><key id="." aria-label="decimal point">.</key></td>
+      <td><key id="0">0</key></td>
+      <td><key id="/" aria-label="divide">/</key></td>
+      <td><key id="*">&times;</key></td>
+    </tr>
+    <tr>
+      <td colspan="2"><key id="reset" class="secondary big">RESET</key></td>
+      <td colspan="2"><key id="=" class="primary big">=</key></td>
+    </tr>
+  </tbody>
+</table>
+
+<style>
+  numeric-keypad {
+    padding: var(--fluid-20-32);
+    border-radius: 10px;
+    background-color: var(--color-keypad, var(--color-ebony-clay));
+
+    & table {
+      border-collapse: collapse;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: var(--fluid-53-64);
+      gap: var(--fluid-10-24);
+
+      & :is(tbody, tr, td) { display: contents; }
+    }
+  }
+</style>
+
+<script webc:bucket="defer">
+  class NumericKeypad extends HTMLElement {
+    connectedCallback() {
+      this.rows = this.querySelectorAll('table tr')
+      this.keys = this.querySelectorAll('.key')
+
+      this.maxRow = this.rows.length - 1
+      this.maxCol = this.rows[0].children.length - 1
+
+      // Remove all keys except the first one from the tab index
+      this.keys.forEach((key, index) => {
+        if (index === 0) return
+        key.setAttribute('tabindex', '-1')
+      })
+
+      // Add data-* attributes to cells to define grid coordinates
+      this.rows.forEach((row, rowIndex) => {
+        row.querySelectorAll('td').forEach((col, colIndex) => {
+          col.dataset.row = rowIndex
+          col.dataset.col = colIndex
+
+          if (colIndex > this.maxCol) this.maxCol = colIndex
+        })
+      })
+
+      this.addEventListener('keydown', event => {
+        const row = parseInt(event.target.parentElement.dataset.row)
+        const col = parseInt(event.target.parentElement.dataset.col)
+
+        let newRow, newCol, result
+
+        switch (event.key) {
+          case 'ArrowRight': {
+            newRow = col === this.maxCol ? row + 1 : row
+            newCol = col === this.maxCol ? 0 : col + 1
+            result = this.moveTo(newRow, newCol)
+            break
+          }
+          case 'ArrowLeft': {
+            newRow = col === 0 ? row - 1 : row
+            newCol = col === 0 ? this.maxCol : col - 1
+            result = this.moveTo(newRow, newCol)
+            break
+          }
+          case 'ArrowDown': {
+            newRow = row === this.maxRow ? 0 : row + 1
+            newCol = row === this.maxRow ? this.prevCol + 1 : col
+
+            // Fix moving to buttons in the last row
+            if (newRow === this.maxRow) newCol = Math.floor(newCol / 2)
+
+            result = this.moveTo(newRow, newCol)
+            break
+          }
+          case 'ArrowUp': {
+            newRow = row === 0 ? this.maxRow : row - 1
+
+            // If focus is at the top cell in a column, then move to the previous column
+            if (row === 0) {
+              newCol = col - 1
+            // If focus is at the bottom row coming from the top row, then move to the previous column relative to the previous key
+            } else if (row === this.maxRow && this.prevRow === 0) {
+              newCol = this.prevCol - 1
+            // If focus is at the bottom row coming from the previous row, then move to the previous key
+            } else if (row === this.maxRow && this.prevRow === this.maxRow - 1) {
+              newCol = this.prevCol
+            // If focus is at the bottom row coming from the side, then move up a row in the same column
+            } else if (row === this.maxRow) {
+              newCol = Math.floor(col * 2)
+            } else {
+              newCol = col
+            }
+
+            // Fix moving to buttons in the last row
+            if (newRow === this.maxRow) newCol = Math.floor(newCol / 2)
+
+            result = this.moveTo(newRow, newCol)
+            break
+          }
+          case ' ':
+            event.target.classList.add('active')
+          default:
+            break;
+        }
+
+        if (result) {
+          // Track the previous coordinates
+          this.prevRow = row
+          this.prevCol = col
+        }
+
+        document.addEventListener('keyup', event => {
+          if (event.target.classList.contains('active')) {
+            event.target.classList.remove('active')
+          }
+        }, { once: true })
+      })
+    }
+
+    moveTo(newRow, newCol) {
+      let cell = this.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`)
+
+      if (cell) {
+        this.keys.forEach(key => key.setAttribute('tabindex', '-1'))
+        cell.firstElementChild.setAttribute('tabindex', '0')
+        cell.firstElementChild.focus()
+
+        return true
+      } else {
+        return false
+      }
+    }
+  }
+
+  if (!customElements.get('numeric-keypad')) {
+    customElements.define('numeric-keypad', NumericKeypad)
+  }
+</script>
