@@ -1,6 +1,6 @@
 <calc-header></calc-header>
 <display>399,981</display>
-<keypad></keypad>
+<numeric-keypad></numeric-keypad>
 
 <style>
   calculator {
@@ -28,7 +28,7 @@
     bindToDOM(selectors) {
       this.root = document.querySelector(selectors)
       this.display = this.root.querySelector('display')
-      this.keypad = this.root.querySelector('keypad')
+      this.keypad = this.root.querySelector('numeric-keypad')
 
       this.updateDisplay()
 
@@ -57,7 +57,7 @@
         const press = keyId => {
           event.preventDefault()
 
-          const button = this.keypad.children.namedItem(keyId)
+          const button = this.keypad.querySelector(`[id="${keyId}"]`)
           button.classList.add('active')
           button.focus()
           button.click()
@@ -175,20 +175,5 @@
     }
   }
 
-  // Example usage:
   const calculator = new Calculator('calculator');
-
-  calculator.inputDigit('5');
-  calculator.setOperator('+');
-  calculator.inputDigit('3');
-  calculator.calculate();
-  console.log(calculator.getDisplayValue()); // Outputs: 8
-
-  calculator.setOperator('/');
-  calculator.inputDigit('3');
-  calculator.calculate();
-  console.log(calculator.getDisplayValue()); // Outputs: 16
-
-  calculator.clear();
-  console.log(calculator.getDisplayValue()); // Outputs: 0
 </script>

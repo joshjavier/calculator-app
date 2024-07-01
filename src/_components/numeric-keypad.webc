@@ -1,0 +1,113 @@
+<table id="keypad" role="grid">
+  <tbody>
+    <tr>
+      <td><key id="7">7</key></td>
+      <td><key id="8">8</key></td>
+      <td><key id="9">9</key></td>
+      <td><key id="del" class="secondary" aria-label="delete">DEL</key></td>
+    </tr>
+    <tr>
+      <td><key id="4">4</key></td>
+      <td><key id="5">5</key></td>
+      <td><key id="6">6</key></td>
+      <td><key id="+">&plus;</key></td>
+    </tr>
+    <tr>
+      <td><key id="1">1</key></td>
+      <td><key id="2">2</key></td>
+      <td><key id="3">3</key></td>
+      <td><key id="-">&minus;</key></td>
+    </tr>
+    <tr>
+      <td><key id="." aria-label="decimal point">.</key></td>
+      <td><key id="0">0</key></td>
+      <td><key id="/" aria-label="divide">/</key></td>
+      <td><key id="*">&times;</key></td>
+    </tr>
+    <tr>
+      <td colspan="2"><key id="reset" class="secondary big">RESET</key></td>
+      <td colspan="2"><key id="=" class="primary big">=</key></td>
+    </tr>
+  </tbody>
+</table>
+
+<style>
+  numeric-keypad {
+    padding: var(--fluid-20-32);
+    border-radius: 10px;
+    background-color: var(--color-keypad, var(--color-ebony-clay));
+
+    & table {
+      border-collapse: collapse;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: var(--fluid-53-64);
+      gap: var(--fluid-10-24);
+
+      & :is(tbody, tr, td) { display: contents; }
+    }
+  }
+</style>
+
+<script webc:bucket="defer">
+  class NumericKeypad extends HTMLElement {
+    connectedCallback() {
+      console.log('keypad mounted')
+      this.rows = this.querySelectorAll('table tr')
+      this.keys = this.querySelectorAll('.key')
+
+      this.maxRow = this.rows.length - 1
+      this.maxCol = this.rows[0].children.length - 1
+
+      // Remove all keys except the first one from the tab index
+      this.keys.forEach((key, index) => {
+        if (index === 0) return
+        key.setAttribute('tabindex', '-1')
+      })
+
+      // Add data-* attributes to cells to define grid coordinates
+      this.rows.forEach((row, rowIndex) => {
+        row.querySelectorAll('td').forEach((col, colIndex) => {
+          col.dataset.row = rowIndex
+          col.dataset.col = colIndex
+
+          if (colIndex > this.maxCol) this.maxCol = colIndex
+        })
+      })
+
+      console.log(this.maxCol)
+
+      this.addEventListener('keydown', event => {
+        const row = parseInt(event.target.parentElement.dataset.row)
+        const col = parseInt(event.target.parentElement.dataset.col)
+
+        const key = event.key
+        switch (key) {
+          case 'ArrowRight':
+            const newRow = col === this.maxCol ? row + 1 : row
+            const newCol = col === this.maxCol ? 0 : col + 1
+            this.moveTo(newRow, newCol)
+            break
+          case 'ArrowDown':
+            this.row++
+            break
+          default:
+            break;
+        }
+      })
+    }
+
+    moveTo(newRow, newCol) {
+      console.log({ newRow, newCol })
+      const newKey = this.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`)?.firstElementChild
+      if (newKey) {
+        newKey.focus()
+        newKey.setAttribute('tabindex', '0')
+      }
+    }
+  }
+
+  if (!customElements.get('numeric-keypad')) {
+    customElements.define('numeric-keypad', NumericKeypad)
+  }
+</script>
