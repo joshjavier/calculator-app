@@ -52,7 +52,6 @@
 <script webc:bucket="defer">
   class NumericKeypad extends HTMLElement {
     connectedCallback() {
-      console.log('keypad mounted')
       this.rows = this.querySelectorAll('table tr')
       this.keys = this.querySelectorAll('.key')
 
@@ -75,34 +74,83 @@
         })
       })
 
-      console.log(this.maxCol)
-
       this.addEventListener('keydown', event => {
         const row = parseInt(event.target.parentElement.dataset.row)
         const col = parseInt(event.target.parentElement.dataset.col)
 
-        const key = event.key
-        switch (key) {
-          case 'ArrowRight':
-            const newRow = col === this.maxCol ? row + 1 : row
-            const newCol = col === this.maxCol ? 0 : col + 1
-            this.moveTo(newRow, newCol)
+        let newRow, newCol, result
+
+        switch (event.key) {
+          case 'ArrowRight': {
+            newRow = col === this.maxCol ? row + 1 : row
+            newCol = col === this.maxCol ? 0 : col + 1
+            result = this.moveTo(newRow, newCol)
             break
-          case 'ArrowDown':
-            this.row++
+          }
+          case 'ArrowLeft': {
+            newRow = col === 0 ? row - 1 : row
+            newCol = col === 0 ? this.maxCol : col - 1
+            result = this.moveTo(newRow, newCol)
             break
+          }
+          case 'ArrowDown': {
+            newRow = row === this.maxRow ? 0 : row + 1
+            newCol = row === this.maxRow ? this.prevCol + 1 : col
+
+            // Fix moving to buttons in the last row
+            if (newRow === this.maxRow) newCol = Math.floor(newCol / 2)
+
+            result = this.moveTo(newRow, newCol)
+            break
+          }
+          case 'ArrowUp': {
+            newRow = row === 0 ? this.maxRow : row - 1
+
+            // If focus is at the top cell in a column, then move to the previous column
+            if (row === 0) {
+              newCol = col - 1
+            // If focus is at the bottom row coming from the top row, then move to the previous column relative to the previous key
+            } else if (row === this.maxRow && this.prevRow === 0) {
+              newCol = this.prevCol - 1
+            // If focus is at the bottom row coming from the previous row, then move to the previous key
+            } else if (row === this.maxRow && this.prevRow === this.maxRow - 1) {
+              newCol = this.prevCol
+            // If focus is at the bottom row coming from the side, then move up a row in the same column
+            } else if (row === this.maxRow) {
+              newCol = Math.floor(col * 2)
+            } else {
+              newCol = col
+            }
+
+            // Fix moving to buttons in the last row
+            if (newRow === this.maxRow) newCol = Math.floor(newCol / 2)
+
+            result = this.moveTo(newRow, newCol)
+            break
+          }
           default:
             break;
+        }
+
+        if (result) {
+          // Track the previous coordinates
+          this.prevRow = row
+          this.prevCol = col
         }
       })
     }
 
     moveTo(newRow, newCol) {
-      console.log({ newRow, newCol })
-      const newKey = this.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`)?.firstElementChild
-      if (newKey) {
-        newKey.focus()
-        newKey.setAttribute('tabindex', '0')
+      let cell = this.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`)
+
+      if (cell) {
+        this.keys.forEach(key => key.setAttribute('tabindex', '-1'))
+        cell.firstElementChild.setAttribute('tabindex', '0')
+        cell.firstElementChild.focus()
+
+        return true
+      } else {
+        return false
       }
     }
   }
