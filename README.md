@@ -14,7 +14,7 @@ This is a solution to the [Calculator app challenge on Frontend Mentor](https://
   - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
+<!-- - [Acknowledgments](#acknowledgments) -->
 
 ## Overview
 
@@ -23,7 +23,7 @@ This is a solution to the [Calculator app challenge on Frontend Mentor](https://
 Users should be able to:
 
 - [x] See the size of the elements adjust based on their device's screen size
-- [ ] Perform mathmatical operations like addition, subtraction, multiplication, and division
+- [x] Perform mathmatical operations like addition, subtraction, multiplication, and division
 - [x] Adjust the color theme based on their preference
 - [x] **Bonus**: Have their initial theme preference checked using `prefers-color-scheme` and have any additional changes saved in the browser
 
@@ -33,23 +33,25 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: https://www.frontendmentor.io/solutions/responsive-keyboard-accessible-calculator-app-with-theme-switcher-9htBrXcHEf
+- Live Site URL: https://calculator-app-ed3cef.netlify.app/
 
 ## My process
 
 ### Built with
 
 - Semantic HTML5 markup
-- CSS custom properties for design tokens (see [_base.css]())
+- CSS custom properties for design tokens (see [_base.css](https://github.com/joshjavier/calculator-app/blob/main/src/assets/css/_base.css))
+- Modern CSS syntax (`:is()`, `:where()`, and CSS nesting)
 - [A (more) modern CSS reset](https://piccalil.li/blog/a-more-modern-css-reset/)
 - [11ty](https://www.11ty.dev/) - simpler static site generator
+- [WebC](https://www.11ty.dev/docs/languages/webc/) - component-driven template language
 - [Lightning CSS](https://lightningcss.dev/) - CSS bundler
 - [esbuild](https://esbuild.github.io/) - JS bundler
 
 ### What I learned
 
-#### [CSS container query units are not supported in Safari on iOS <= 15.8](https://caniuse.com/css-container-query-units)
+#### Lesson #1: [CSS container query units are not supported in Safari on iOS <= 15.8](https://caniuse.com/css-container-query-units)
 
 For context, I'm using an iPhone SE (1st gen) for mobile testing on my projects, which is nice because I also get to check if my work is accessible on an old device. I was so frustrated at first because the display and keypad layout stays broken even though it looks good on desktop.
 
@@ -69,7 +71,7 @@ It took me a while to figure out that the issue was caused by the container quer
 
 Why not use viewport units exclusively? Adding support for container query units means I can use this calculator component in other contexts. For example, in the future I can place it in the sidebar of my blog and it will still have responsive type and spacing.
 
-#### Implementing a progressively-enhanced 3-way theme toggle switch component
+#### Lesson #2: Implementing a progressively-enhanced 3-way theme toggle switch component
 
 Even though this is a secondary feature, I actually worked on this first, but only because I've already built a [calculator](https://github.com/joshjavier/calculator) before and am already familiar with the JavaScript implementation.
 
@@ -83,18 +85,47 @@ Building this was fun! Here's a quick breakdown:
 
 - For progressive enhancement, I created a `DraggableSwitch` class that makes the handle draggable, but retains the native radio button functionality.
 
-I also learned to leverage the [asset bucketing](https://www.11ty.dev/docs/languages/webc/#asset-bucketing) feature of Eleventy and WebC to [prevent color flashes](https://web.dev/articles/building/a-theme-switch-component#the_page_load_experience) when reloading the page. See [theme-switch.webc]() to get a closer look.
+I also learned to leverage the [asset bucketing](https://www.11ty.dev/docs/languages/webc/#asset-bucketing) feature of Eleventy and WebC to [prevent color flashes](https://web.dev/articles/building/a-theme-switch-component#the_page_load_experience) when reloading the page. See [theme-switch.webc](https://github.com/joshjavier/calculator-app/blob/main/src/_components/theme-switch.webc) to get a closer look.
 
-<!-- ### Continued development
+#### Lesson #3: Using `display: contents` to layout a `<table>` with CSS Grid
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+Initially, the keypad was composed of buttons that are direct children of the component. It looked exactly like the design, but there was no semantic structure. So I looked to the [Aria Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/) and used the [layout grid pattern](https://www.w3.org/WAI/ARIA/apg/patterns/grid/#layoutgridsforgroupingwidgets) to refactor the keypad.
 
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.** -->
+**But how do I preserve the grid layout?** I could style the `<tbody>` and `<tr>`s to emulate a grid, but that's not the cleanest solution. I thought about using CSS subgrid. I did a quick check: is it supported in Safari on iOS 15.8? [Of course not.](https://caniuse.com/css-subgrid) Still, I tried making it work thinking it was the right answer.
+
+After some time, I typed "should i place display grid on table or tbody" on Google. That's when I discovered the answer in an article titled ["Flexible data tables with CSS Grid"](https://adamlynch.com/flexible-data-tables-with-css-grid/) by Adam Lynch.
+
+**tl;dr** Using `display: contents` on an element bypasses its box model and promotes its children to participate in the grid layout. In this solution, I set `display: contents` on the `<tbody>`, `<tr>`, and `<td>` elements, so that just like my initial setup, the buttons are the ones participating in the grid layout.
+
+```css
+numeric-keypad {
+  padding: var(--fluid-20-32);
+  border-radius: 10px;
+  background-color: var(--color-keypad, var(--color-ebony-clay));
+
+  & table {
+    border-collapse: collapse;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: var(--fluid-53-64);
+    gap: var(--fluid-10-24);
+
+    & :is(tbody, tr, td) { display: contents; }
+  }
+}
+```
+
+### Continued development
+
+Aside from making this solution keyboard accessible and adding labels to some buttons for readability (e.g. "delete" for DEL button), I didn't spend too much time in making this solution more accessible especially to screenreaders. If you have any feedback, please let me know!
 
 ### Useful resources
 
 - [Building a switch component](https://web.dev/articles/building/a-switch-component) and [Building a theme switch component](https://web.dev/articles/building/a-theme-switch-component) - These two articles, both by Adam Argyle, were the primary inspiration for my implementation of the calculator's theme switcher. Adam did a brillient job explaining not only the *how* but also the *why*, which helped me combine these concepts into a progressively-enhanced 3-way theme toggle switch component.
 - [Inclusively Hiding & Styling Checkboxes and Radio Buttons](https://www.sarasoueidan.com/blog/inclusively-hiding-and-styling-checkboxes-and-radio-buttons/) - I always reference this whenever I have to add custom styling to checkboxes or radio buttons.
+- [Flexible data tables with CSS Grid](https://adamlynch.com/flexible-data-tables-with-css-grid/) - Will definitely reference this article again.
+- [ARIA: grid role - Accessibility | MDN](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/grid_role) - The example in this page has been a great reference while I was working on the focus management for the keypad component.
+- [Developing a Keyboard Interface ](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/) - Great article on keyboard accessibility. I particularly liked the section on the roving tabindex, which is how I implemented the keypad navigation.
 
 ## Author
 
